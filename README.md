@@ -17,6 +17,10 @@ A tic tac toe game, played between two players using a command line interface.
 
 In the project folder, run `ruby/tictactoe.rb`
 
+### Run Test Suite 
 
+In the project folder, run `rspec` 
+
+**Note:** Be sure the `rspec` gem is installed. Make sure you run `bundle install` before `rspec`. 
 
 
