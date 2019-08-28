@@ -19,7 +19,7 @@ describe TicTacToe do
     it 'sets the board to a list with empty strings' do 
         game = TicTacToe.new
         game.newGame 
-        expect( game.renderBoard.all?{ |space| space.s == '' } ).to eql true
+        expect( game.renderBoard.all?{ |space| space == '' } ).to eql true
     end 
   end   
 
