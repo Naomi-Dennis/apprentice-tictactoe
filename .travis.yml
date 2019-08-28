@@ -1,4 +1,5 @@
-language:  ruby 
-ruby: 
-- 2.3 
-- rspec 
+language: ruby 
+ruby:
+     - 2.3 
+
+script: rspec 
