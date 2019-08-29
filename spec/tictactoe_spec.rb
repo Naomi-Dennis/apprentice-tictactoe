@@ -25,7 +25,8 @@ describe TicTacToe do
     it 'the token will be "X"' do 
       game = TicTacToe.new 
       expect( game.currentPlayer).to eql 'X' 
-    end 
+    end
+
     it 'the specified space will place the current token on the board' do 
       game = TicTacToe.new 
       game.placeToken(5) 
@@ -50,10 +51,20 @@ describe TicTacToe do
     it 'renders the board after a token is placed' do 
       game = TicTacToe.new 
       updatedBoard = game.placeToken(3) 
-      expect( updatedBoard[2] ).to eql 'X' 
-      
+      expect( updatedBoard[2] ).to eql 'X'    
     end   
   end  
+
+  context 'when the user enters a desired position' do 
+    it 'renders the board with their token' do 
+      game = TicTacToe.new
+      
+      $stdin = StringIO.new('4') 
+      updatedBoard = game.playerTurn
+
+      expect( updatedBoard.include? 'X'  ).to eql true
+    end 
+  end 
 
 
 
