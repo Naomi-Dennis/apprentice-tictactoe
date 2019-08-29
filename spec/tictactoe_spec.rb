@@ -59,13 +59,20 @@ describe TicTacToe do
     it 'renders the board with their token' do 
       game = TicTacToe.new
       
-      $stdin = StringIO.new('4') 
-      updatedBoard = game.playerTurn
+      updatedBoard = game.playerTurn StringIO.new('4');
 
       expect( updatedBoard.include? 'X'  ).to eql true
     end 
   end 
 
+ context 'when the user tries to place a token in a free space' do 
+    it 'renders the board with their token in the specified space' do 
+      game = TicTacToe.new
+      
+      updatedBoard = game.playerTurn StringIO.new ('4') 
 
+      expect( updatedBoard[3]  ).to eql 'X'
+    end 
+ end 
 
 end 

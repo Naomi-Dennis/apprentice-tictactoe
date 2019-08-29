@@ -22,10 +22,11 @@ class TicTacToe
     @currentToken 
  end
 
- def playerTurn 
-   desiredPosition = gets.chomp.to_i
+ def playerTurn( io=STDIN )
+   desiredPosition = io.gets.chomp.to_i
    placeToken( desiredPosition )  
  end
+
  private 
 
  attr_accessor :board, :currentToken 
