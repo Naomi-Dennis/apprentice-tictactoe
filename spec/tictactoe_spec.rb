@@ -1,6 +1,7 @@
 require 'spec_helper' 
 require 'tictactoe' 
 describe TicTacToe do 
+
   context 'when the board is viewed' do
     it 'returns a single list with 9 elements' do 
      game = TicTacToe.new
@@ -9,15 +10,16 @@ describe TicTacToe do
 
      game = TicTacToe.new
 
-     expect(game.renderBoard.all?{ |space| space.class == String && space.length <= 1 } ).to eql true 
-    end 
+     expect(game.renderBoard.all?{ |space| space.class == String && space.length == 1 } ).to eql true 
+    end
+
   end
 
   context 'when the game starts the board is empty' do 
-    it 'sets the board to a list with empty strings' do 
+    it 'sets the board to a list with a single space' do 
         game = TicTacToe.new
         game.newGame 
-        expect( game.renderBoard.all?{ |space| space == '' } ).to eql true
+        expect( game.renderBoard.all?{ |space| space == ' ' } ).to eql true
     end 
   end  
 
@@ -47,7 +49,7 @@ describe TicTacToe do
       game.placeToken(9)
       expect(game.renderBoard[8]).to eql 'X' 
     end 
-
+    
     it 'renders the board after a token is placed' do 
       game = TicTacToe.new 
       updatedBoard = game.placeToken(3) 
@@ -68,11 +70,13 @@ describe TicTacToe do
  context 'when the user tries to place a token in a free space' do 
     it 'renders the board with their token in the specified space' do 
       game = TicTacToe.new
-      
-      updatedBoard = game.playerTurn StringIO.new ('4') 
-
-      expect( updatedBoard[3]  ).to eql 'X'
+      currentPlayer = game.currentPlayer 
+      updatedBoard = game.placeToken 4 
+      expect( game.placeToken(4)[3] ).to eql currentPlayer 
     end 
  end 
+ 
+  
+ 
 
 end 
