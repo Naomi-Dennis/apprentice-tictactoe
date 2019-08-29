@@ -21,7 +21,7 @@ describe TicTacToe do
     end 
   end  
 
- context 'when a single token is places on an empty board' do 
+ context 'when a single token is placed on an empty board' do 
     it 'the token will be "X"' do 
       game = TicTacToe.new 
       expect( game.currentPlayer).to eql 'X' 
