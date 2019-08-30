@@ -1,2 +1,5 @@
 # Ignore notes file 
 notes.txt 
+
+# Ignore swap files 
+*.swp 

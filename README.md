@@ -1,4 +1,5 @@
-# Tic Tac Toe 
+# Tic Tac Toe
+[![Build Status](https://travis-ci.org/Naomi-Dennis/apprentice-tictactoe.svg?branch=master)](https://travis-ci.org/Naomi-Dennis/apprentice-tictactoe)
 
 A tic tac toe game, played between two players using a command line interface. 
 
