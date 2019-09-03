@@ -60,6 +60,7 @@ describe TicTacToe do
       
       expectedRowOutput = " |X| " 
       expect( fakeIO.stdout.include? expectedRowOutput ).to eql true 
+      isRowOutputed(io: fakeIO, row:" |X| ") 
     end
 
     it 'the token can be placed anywhere on the board' do 
@@ -80,16 +81,24 @@ describe TicTacToe do
       game.newGame 
       game.placeToken(9)
       expect(game.renderBoard[8]).to eql 'X' 
+      game.placeToken(3)
+      isRowOutputed(io: fakeIO, row:" | |X" )  
+      
       game.newGame
       fakeIO.stdout = []
       game.placeToken(5)  
       expectedRowOutput = " |X| " 
       expect( fakeIO.stdout.include? expectedRowOutput ).to eql true 
+      game.placeToken(5) 
+      isRowOutputed(io: fakeIO, row: " |X| " )
+      
+      
       game.newGame
       fakeIO.stdout = []  
       game.placeToken(7)
       expectedRowOutput = "X| | "
       expect(fakeIO.stdout.include? expectedRowOutput ).to eql true
+      isRowOutputed(io: fakeIO, row: "X| | ") 
     end 
     
     it 'renders the board after a token is placed' do 
