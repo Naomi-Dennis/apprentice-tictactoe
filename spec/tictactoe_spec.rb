@@ -5,8 +5,10 @@ require 'tictactoe'
 class FakeIO
   attr_accessor :stdin, :stdout 
   def initialize(stdin: StringIO.new(''), stdout: StringIO.new) 
+  def initialize(stdin: StringIO.new('') ) 
       @stdin = stdin 
       @stdout = stdout 
+      @stdout = []  
   end 
 
   def puts( string ) 
