@@ -28,7 +28,7 @@ class TicTacToe
     @currentToken 
  end
 
- def playerTurn( io=STDIN )
+ def playerTurn
    desiredPosition = io.gets.to_i
    io.puts "Select a position to place your token [0 - 9]: "
 
