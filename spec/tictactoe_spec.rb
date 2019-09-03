@@ -3,6 +3,7 @@ require 'tictactoe'
 
 ## Faker Classes 
 class FakeIO
+  attr_accessor :stdin, :stdout 
   def initialize(stdin: StringIO.new(''), stdout: StringIO.new) 
       @stdin = stdin 
       @stdout = stdout 
