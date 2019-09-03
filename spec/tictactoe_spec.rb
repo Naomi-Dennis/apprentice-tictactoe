@@ -87,21 +87,33 @@ describe TicTacToe do
   end  
 
   context 'when the user enters a desired position' do 
-    it 'renders the board with their token' do 
-      game = TicTacToe.new(io: FakeIO.new)
-      
-      updatedBoard = game.playerTurn StringIO.new('4');
-
-      expect( updatedBoard.include? 'X'  ).to eql true
+    it 'renders the board with their token' do
+      desiredPosition = 4 
+   
+      userInput = StringIO.new(desiredPosition.to_s) 
+      fakeIO = FakeIO.new( stdin: userInput )
+      game = TicTacToe.new(io: fakeIO )
+    
+      game.playerTurn
+    
+      isRowOutputed(io: fakeIO, row: "X| | ") 
     end 
   end 
 
  context 'when the user tries to place a token in a free space' do 
     it 'renders the board with their token in the specified space' do 
-      game = TicTacToe.new(io: FakeIO.new)
-      currentPlayer = game.currentPlayer 
-      updatedBoard = game.placeToken 4 
-      expect( game.placeToken(4)[3] ).to eql currentPlayer 
+      desiredPosition = 4 
+   
+      userInput = StringIO.new(desiredPosition.to_s) 
+      fakeIO = FakeIO.new( stdin: userInput )
+      game = TicTacToe.new(io: fakeIO )
+    
+      expect(game.renderBoard[ desiredPosition - 1] ).to eql ' '
+
+      game.playerTurn
+       
+      isRowOutputed(io: fakeIO, row: "X| | ") 
+      expect(game.renderBoard[ desiredPosition - 1]).to eql 'X' 
     end 
  end 
  
