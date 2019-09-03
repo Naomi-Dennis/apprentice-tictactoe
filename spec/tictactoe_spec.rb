@@ -23,7 +23,7 @@ end
 
 describe TicTacToe do 
 
-  context 'when the board is viewed' do
+  context 'when the board is rendered' do
     it 'returns a single list with 9 elements' do 
      game = TicTacToe.new(io: FakeIO.new)
 
