@@ -30,7 +30,7 @@ class TicTacToe
 
  def playerTurn
    desiredPosition = io.gets.to_i
-   io.puts "Select a position to place your token [0 - 9]: "
+   io.puts "Select a position to place your token [1 - 9]: "
 
    unless board[desiredPosition - 1] == ' ' 
       io.puts "That position is taken!" 
