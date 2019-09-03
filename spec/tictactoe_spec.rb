@@ -1,5 +1,23 @@
 require 'spec_helper' 
 require 'tictactoe' 
+
+## Faker Classes 
+class FakeIO
+  def initialize(stdin: StringIO.new(''), stdout: StringIO.new) 
+      @stdin = stdin 
+      @stdout = stdout 
+  end 
+
+  def puts( string ) 
+    @stdout << string     
+  end 
+
+  def gets 
+    @stdin.gets @stdin.string 
+  end 
+
+end 
+
 describe TicTacToe do 
 
   context 'when the board is viewed' do
