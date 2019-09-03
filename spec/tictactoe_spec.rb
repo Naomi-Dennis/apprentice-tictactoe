@@ -20,6 +20,7 @@ end
 
 def isRowOutputed( io, row ) 
     expect( io.stdout.includes? row).to eql true 
+    expect( io.stdout.include? row).to eql true 
 end 
 
 describe TicTacToe do 
