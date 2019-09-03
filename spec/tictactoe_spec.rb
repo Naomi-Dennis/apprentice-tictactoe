@@ -4,10 +4,8 @@ require 'tictactoe'
 ## Faker Classes 
 class FakeIO
   attr_accessor :stdin, :stdout 
-  def initialize(stdin: StringIO.new(''), stdout: StringIO.new) 
   def initialize(stdin: StringIO.new('') ) 
       @stdin = stdin 
-      @stdout = stdout 
       @stdout = []  
   end 
 
@@ -50,9 +48,12 @@ describe TicTacToe do
     end
 
     it 'the specified space will place the current token on the board' do 
-      game = TicTacToe.new(io: FakeIO.new) 
+      fakeIO = FakeIO.new 
+      game = TicTacToe.new(io: fakeIO)  
       game.placeToken(5) 
-      expect( game.renderBoard[4] ).to eql 'X' 
+      
+      expectedRowOutput = " |X| " 
+      expect( fakeIO.stdout.include? expectedRowOutput ).to eql true 
     end
 
     it 'the token can be placed anywhere on the board' do 
