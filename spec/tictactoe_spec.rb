@@ -50,7 +50,6 @@ describe TicTacToe do
     it 'the specified space will place the current token on the board' do 
       fakeIO = FakeIO.new 
       game = TicTacToe.new(io: fakeIO)  
-      game.placeToken(5) 
       
       expectedRowOutput = " |X| " 
       expect( fakeIO.stdout.include? expectedRowOutput ).to eql true 
