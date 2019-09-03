@@ -1,6 +1,5 @@
 require 'spec_helper' 
 require 'tictactoe' 
-
 ## Faker Classes 
 class FakeIO
   attr_accessor :stdin, :stdout 
@@ -18,8 +17,6 @@ class FakeIO
   end 
 end 
 
-def isRowOutputed( io, row ) 
-    expect( io.stdout.includes? row).to eql true 
 def isRowOutputed( io: , row:  ) 
     expect( io.stdout.include? row).to eql true 
 end 
@@ -31,9 +28,6 @@ describe TicTacToe do
      game = TicTacToe.new(io: FakeIO.new)
 
      expect(game.renderBoard.length).to eql 9
-
-     game = TicTacToe.new(io: FakeIO.new)
-
      expect(game.renderBoard.all?{ |space| space.class == String && space.length == 1 } ).to eql true 
     end
 
@@ -58,37 +52,19 @@ describe TicTacToe do
       game = TicTacToe.new(io: fakeIO)  
       game.placeToken(5) 
       
-      expectedRowOutput = " |X| " 
-      expect( fakeIO.stdout.include? expectedRowOutput ).to eql true 
       isRowOutputed(io: fakeIO, row:" |X| ") 
     end
 
     it 'the token can be placed anywhere on the board' do 
-      game = TicTacToe.new(io: FakeIO.new) 
       fakeIO = FakeIO.new
       expectedRowOutput = ""
       game = TicTacToe.new(io: fakeIO)
-      game.placeToken(3) 
-      expect( game.renderBoard[2] ).to eql 'X' 
-      expectedRowOutput = " | |X" 
-      expect( fakeIO.stdout.include? expectedRowOutput ).to eql true 
-      
-      game.newGame 
-      game.placeToken(5)
 
-      expect(game.renderBoard[4]).to eql 'X' 
-
-      game.newGame 
-      game.placeToken(9)
-      expect(game.renderBoard[8]).to eql 'X' 
       game.placeToken(3)
       isRowOutputed(io: fakeIO, row:" | |X" )  
       
       game.newGame
       fakeIO.stdout = []
-      game.placeToken(5)  
-      expectedRowOutput = " |X| " 
-      expect( fakeIO.stdout.include? expectedRowOutput ).to eql true 
       game.placeToken(5) 
       isRowOutputed(io: fakeIO, row: " |X| " )
       
@@ -96,15 +72,10 @@ describe TicTacToe do
       game.newGame
       fakeIO.stdout = []  
       game.placeToken(7)
-      expectedRowOutput = "X| | "
-      expect(fakeIO.stdout.include? expectedRowOutput ).to eql true
       isRowOutputed(io: fakeIO, row: "X| | ") 
     end 
     
     it 'renders the board after a token is placed' do 
-      game = TicTacToe.new(io: FakeIO.new) 
-      updatedBoard = game.placeToken(3) 
-      expect( updatedBoard[2] ).to eql 'X'    
       fakeIO = FakeIO.new
       game = TicTacToe.new(io: fakeIO)
 
