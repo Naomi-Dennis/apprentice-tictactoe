@@ -1,8 +1,9 @@
 class TicTacToe
    
-  def initialize
+  def initialize(io: )
     @board = Array.new(9, ' ') 
     @currentToken = 'X' 
+    @io = io
   end 
 
   def renderBoard 
@@ -42,5 +43,5 @@ class TicTacToe
 
  private 
 
- attr_accessor :board, :currentToken 
+ attr_accessor :board, :currentToken, :io 
 end 
