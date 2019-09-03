@@ -18,6 +18,10 @@ class FakeIO
   end 
 end 
 
+def isRowOutputed( io, row ) 
+    expect( io.stdout.includes? row).to eql true 
+end 
+
 describe TicTacToe do 
 
   context 'when the board is viewed' do
