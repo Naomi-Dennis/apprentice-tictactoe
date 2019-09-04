@@ -46,6 +46,7 @@ describe TicTacToe do
     end
   end
 
+  context 'when a single token is placed on an empty board' do
     it 'the specified space will place the current token on the board' do
       desired_position = 5
       fakeIO = FakeIO.new
@@ -84,8 +85,8 @@ describe TicTacToe do
   context 'when the user enters a desired position' do
     it 'renders the board with their token' do
       desired_position = 4
+      user_input = desired_position.to_s
 
-      user_input = StringIO.new(desired_position.to_s)
       fakeIO = FakeIO.new(stdin: user_input)
       game = TicTacToe.new(io: fakeIO)
 
@@ -98,8 +99,8 @@ describe TicTacToe do
   context 'when the user tries to place a token in a free space' do
     it 'renders the board with their token in the specified space' do
       desired_position = 4
+      user_input = desired_position.to_s
 
-      user_input = StringIO.new(desired_position.to_s)
       fakeIO = FakeIO.new(stdin: user_input)
       game = TicTacToe.new(io: fakeIO)
 
