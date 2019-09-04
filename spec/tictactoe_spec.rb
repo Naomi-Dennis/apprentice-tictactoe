@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 require 'tictactoe'
-## Faker Classes
+
 class FakeIO
   attr_accessor :stdin, :stdout
   def initialize(stdin: StringIO.new(''))
@@ -61,11 +61,11 @@ describe TicTacToe do
       second_desired_position = 5
       fakeIO = FakeIO.new
       game = TicTacToe.new(io: fakeIO)
-      
+
       game.place_token( first_desired_position )
       updated_board = game.place_token( second_desired_position )
-    
-      is_row_outputed(io: fakeIO, row: 'X| | ') 
+
+      is_row_outputed(io: fakeIO, row: 'X| | ')
       is_row_outputed(io: fakeIO, row: 'X| |X')
       expect( updated_board[ first_desired_position ] && updated_board[ second_desired_position ] ).to eql 'X'
     end
