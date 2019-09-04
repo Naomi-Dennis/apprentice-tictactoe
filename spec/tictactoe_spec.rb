@@ -37,7 +37,6 @@ describe TicTacToe do
   context 'when the game starts the board is empty' do
     it 'sets the board to a list with a single space' do
       game = TicTacToe.new(io: FakeIO.new)
-      game.newGame
       expect(game.render_board.all? { |space| space == ' ' }).to eql true
     end
   end

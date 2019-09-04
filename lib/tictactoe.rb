@@ -16,10 +16,6 @@ class TicTacToe
     board
   end
 
-  def newGame
-    @board = Array.new(9, ' ')
-  end
-
   def place_token(position)
     board[position] = current_token
     render_board
