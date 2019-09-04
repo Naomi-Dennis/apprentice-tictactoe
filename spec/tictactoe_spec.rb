@@ -15,7 +15,9 @@ class FakeIO
   end
 
   def gets
-    @stdin
+    string_to_return = @stdin
+    @stdin = ""
+    string_to_return
   end
 end
 
@@ -89,7 +91,7 @@ describe TicTacToe do
       fakeIO = FakeIO.new(stdin: user_input)
       game = TicTacToe.new(io: fakeIO)
 
-      game.player_turn
+      game.begin_player_turn
 
       is_row_outputed(io: fakeIO, row: ' |X| ')
     end
@@ -105,7 +107,7 @@ describe TicTacToe do
 
       expect(game.render_board[desired_position]).to eql ' '
 
-      game.player_turn
+      game.begin_player_turn
 
       is_row_outputed(io: fakeIO, row: ' |X| ')
       expect(game.render_board[desired_position]).to eql 'X'
