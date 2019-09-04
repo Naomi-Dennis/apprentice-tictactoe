@@ -39,13 +39,12 @@ describe TicTacToe do
       game = TicTacToe.new(io: FakeIO.new)
       expect(game.render_board.all? { |space| space == ' ' }).to eql true
     end
-  end
 
-  context 'when a single token is placed on an empty board' do
     it 'the token will be "X"' do
       game = TicTacToe.new(io: FakeIO.new)
       expect(game.current_player).to eql 'X'
     end
+  end
 
     it 'the specified space will place the current token on the board' do
       desired_position = 5
