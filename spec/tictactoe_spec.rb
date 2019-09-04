@@ -46,17 +46,6 @@ describe TicTacToe do
     end
   end
 
-  context 'when a single token is placed on an empty board' do
-    it 'the specified space will place the current token on the board' do
-      desired_position = 5
-      fakeIO = FakeIO.new
-      game = TicTacToe.new(io: fakeIO)
-      updatedBoard = game.place_token(desired_position)
-
-      is_row_outputed(io: fakeIO, row: ' | |X')
-      expect( updatedBoard[desired_position] ).to eql 'X'
-    end
-
     it 'the token can be placed anywhere on the board' do
       first_desired_position = 3
       second_desired_position = 5
