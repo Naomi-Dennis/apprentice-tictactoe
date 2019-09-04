@@ -2,7 +2,7 @@ class TicTacToe
 
   def initialize(io: )
     @board = Array.new(9, ' ')
-    @currentToken = 'X'
+    @current_token = 'X'
     @io = io
   end
 
@@ -19,28 +19,28 @@ class TicTacToe
    @board = Array.new(9, ' ')
   end
 
- def placeToken(position)
-    board[position] = currentToken
+ def place_token(position)
+    board[position] = current_token
     render_board
  end
 
- def currentPlayer
-    @currentToken
+ def current_player
+    @current_token
  end
 
  def player_turn
-   desiredPosition = io.gets.to_i
+   desired_position = io.gets.to_i
    io.puts "Select a position to place your token [1 - 9]: "
 
-   unless board[desiredPosition] == ' '
+   unless board[desired_position] == ' '
       io.puts "That position is taken!"
    else
-    placeToken( desiredPosition )
+    place_token( desired_position )
    end
 
  end
 
  private
 
- attr_accessor :board, :currentToken, :io
+ attr_accessor :board, :current_token, :io
 end

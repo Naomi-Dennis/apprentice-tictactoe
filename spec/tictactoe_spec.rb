@@ -43,13 +43,13 @@ describe TicTacToe do
  context 'when a single token is placed on an empty board' do
     it 'the token will be "X"' do
       game = TicTacToe.new(io: FakeIO.new)
-      expect( game.currentPlayer).to eql 'X'
+      expect( game.current_player).to eql 'X'
     end
 
     it 'the specified space will place the current token on the board' do
       fakeIO = FakeIO.new
       game = TicTacToe.new(io: fakeIO)
-      game.placeToken(5)
+      game.place_token(5)
 
       is_row_outputed(io: fakeIO, row:" | |X")
     end
@@ -58,18 +58,18 @@ describe TicTacToe do
       fakeIO = FakeIO.new
       game = TicTacToe.new(io: fakeIO)
 
-      game.placeToken(3)
+      game.place_token(3)
       is_row_outputed(io: fakeIO, row:"X| | " )
 
       game.newGame
       fakeIO.stdout = []
-      game.placeToken(5)
+      game.place_token(5)
       is_row_outputed(io: fakeIO, row: " | |X" )
 
 
       game.newGame
       fakeIO.stdout = []
-      game.placeToken(7)
+      game.place_token(7)
       is_row_outputed(io: fakeIO, row: " |X| ")
     end
 
@@ -77,7 +77,7 @@ describe TicTacToe do
       fakeIO = FakeIO.new
       game = TicTacToe.new(io: fakeIO)
 
-       game.placeToken(3)
+       game.place_token(3)
        expectedBoardOutput = [" | | ", "------", "X| | ", "------", " | | "]
 
        expect( fakeIO.stdout ).to eql expectedBoardOutput
