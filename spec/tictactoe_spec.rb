@@ -110,7 +110,8 @@ describe TicTacToe do
         fakeIO.stdin = desired_position
         game.begin_player_turn
 
-        expect(fakeIO.stdout.include?('That position is taken!')).to eql true
+        user_is_prompted_position_taken = fakeIO.stdout.grep(/[P|p]osition.*taken/).any? 
+        expect( user_is_prompted_position_taken  ).to eql true
       end
     end
   end
