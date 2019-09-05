@@ -96,7 +96,7 @@ describe TicTacToe do
         game = TicTacToe.new(io: fakeIO)
 
         game.cycle_player_turn
-        user_is_prompted_to_select_space = fakeIO.stdout.grep(/[S|s]elect.*position/).any?
+        user_is_prompted_to_select_space = fakeIO.stdout.grep(/[P|p]layer.*[A-Z].* [S|s]elect.*position/).any?
 
         expect(user_is_prompted_to_select_space).to eql true
       end

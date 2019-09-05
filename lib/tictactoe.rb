@@ -22,7 +22,7 @@ class TicTacToe
   end
 
   def current_player
-    @current_token
+    current_token
   end
 
   def cycle_player_turn
@@ -35,7 +35,7 @@ class TicTacToe
 
   def begin_player_turn
     desired_position = io.gets.to_i
-    io.puts 'Select a position to place your token [1 - 9]: '
+    io.puts "Player #{current_token}, select a position to place your token [1 - 9]: "
 
     if board[desired_position] == ' '
       place_token(desired_position)
