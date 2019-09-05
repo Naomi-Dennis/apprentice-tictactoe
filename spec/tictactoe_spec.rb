@@ -77,34 +77,35 @@ describe TicTacToe do
     end
   end
 
-  context 'when the user enters a desired position' do
-    it 'renders the board with their token' do
-      desired_position = 4
-      user_input = desired_position.to_s
+  context 'when the user interacts with the board' do
+    context 'when the user tries to place a token in a free space' do
+      it 'renders the board with their token' do
+        player_token = 'X'
+        desired_position = 4
 
-      fakeIO = FakeIO.new(stdin: user_input)
-      game = TicTacToe.new(io: fakeIO)
+        fakeIO = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: fakeIO)
 
-      game.begin_player_turn
+        updated_board = game.begin_player_turn
 
-      is_row_outputed(io: fakeIO, row: ' |X| ')
+        is_row_outputed(io: fakeIO, row: " |#{player_token}| ")
+        expect( updated_board[desired_position] ).to eql player_token
+      end
     end
-  end
 
-  context 'when the user tries to place a token in a free space' do
-    it 'renders the board with their token in the specified space' do
-      desired_position = 4
-      user_input = desired_position.to_s
+    context 'when the user tries to place a token in an occupied space' do
+      it "should prompt the user that it's taken" do
+        desired_position = 4
+        fakeIO = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: fakeIO)
 
-      fakeIO = FakeIO.new(stdin: user_input)
-      game = TicTacToe.new(io: fakeIO)
+        game.begin_player_turn
 
-      expect(game.render_board[desired_position]).to eql ' '
+        fakeIO.stdin = desired_position
+        game.begin_player_turn
 
-      game.begin_player_turn
-
-      is_row_outputed(io: fakeIO, row: ' |X| ')
-      expect(game.render_board[desired_position]).to eql 'X'
+        expect(fakeIO.stdout.include?('That position is taken!')).to eql true
+      end
     end
   end
 end
