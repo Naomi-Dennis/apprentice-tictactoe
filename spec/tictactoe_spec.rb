@@ -25,9 +25,9 @@ def is_row_outputed(io:, row:)
   expect(io.stdout.include?(row)).to eql true
 end
 
-def cycle_player_turn(game: ) 
+def cycle_player_turn(game: )
   game.cycle_player_turn
-end 
+end
 
 describe TicTacToe do
   context 'when a new game is started' do
@@ -136,12 +136,26 @@ describe TicTacToe do
           game = TicTacToe.new(io: fakeIO)
 
           game.cycle_player_turn
-          game.cycle_player_turn 
+          game.cycle_player_turn
 
           updated_board = game.render_board
 
           expect(updated_board.include? player_two_token).to eql true
         end
+      end
+
+      it 'allows the first player to place a token after the second player' do
+          player_one_token = 'X'
+          fakeIO = FakeIO.new(stdin: desired_position)
+          game = TicTacToe.new(io: fakeIO)
+
+          game.cycle_player_turn
+          game.cycle_player_turn
+          game.cycle_player_turn
+
+          updated_board = game.render_board
+
+          expect(updated_board.include? player_one_token).to eql true
       end
     end
   end
