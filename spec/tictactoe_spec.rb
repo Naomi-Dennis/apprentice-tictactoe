@@ -29,20 +29,26 @@ describe TicTacToe do
   context 'when the board is rendered' do
     it 'returns a single list with 9 elements' do
       game = TicTacToe.new(io: FakeIO.new)
+  context 'when a new game is started' do
+    context 'when the board is rendered' do
+      it 'returns a single list with 9 elements' do
+        game = TicTacToe.new(io: FakeIO.new)
 
-      expect(game.render_board.length).to eql 9
-    end
-  end
-
-  context 'when the game starts the board is empty' do
-    it 'sets the board to a list with a single space' do
-      game = TicTacToe.new(io: FakeIO.new)
-      expect(game.render_board.all? { |space| space == ' ' }).to eql true
+        expect(game.render_board.length).to eql 9
+      end
     end
 
-    it 'the token will be "X"' do
-      game = TicTacToe.new(io: FakeIO.new)
-      expect(game.current_player).to eql 'X'
+    context 'when the board is empty' do
+      it 'sets board data to empty spaces' do
+        game = TicTacToe.new(io: FakeIO.new)
+        all_spaces_empty = game.render_board.all? { |space| space == ' ' }
+        expect( all_spaces_empty ).to eql true
+      end
+
+      it 'the first token will be "X"' do
+        game = TicTacToe.new(io: FakeIO.new)
+        expect(game.current_player).to eql 'X'
+      end
     end
   end
 
