@@ -77,11 +77,11 @@ describe TicTacToe do
 
   context 'when the user interacts with the board' do
     context 'when the user tries to place a token in a free space' do
-      it 'renders the board with their token' do
-        player_token = 'X'
-        desired_position = 4
 
         fakeIO = FakeIO.new(stdin: desired_position)
+      it 'adds their token to the board' do
+        fakeIO = FakeIO.new( stdin: desired_position )
+        player_token = 'X'
         game = TicTacToe.new(io: fakeIO)
 
         updated_board = game.begin_player_turn
@@ -93,8 +93,7 @@ describe TicTacToe do
 
     context 'when the user tries to place a token in an occupied space' do
       it "should prompt the user that it's taken" do
-        desired_position = 4
-        fakeIO = FakeIO.new(stdin: desired_position)
+        fakeIO = FakeIO.new( stdin: desired_position )
         game = TicTacToe.new(io: fakeIO)
 
         game.begin_player_turn
