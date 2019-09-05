@@ -76,9 +76,18 @@ describe TicTacToe do
   end
 
   context 'when the user interacts with the board' do
-    context 'when the user tries to place a token in a free space' do
 
-        fakeIO = FakeIO.new(stdin: desired_position)
+    context 'when the user tries to place a token in a free space' do
+      it 'prompt the user to select a space' do
+        fakeIO = FakeIO.new( stdin: desired_position )
+        game = TicTacToe.new( io: fakeIO )
+
+        game.begin_player_turn
+        user_is_prompted_to_select_space  = fakeIO.stdout.grep(/[S|s]elect.*position/).any?
+
+        expect( user_is_prompted_to_select_space ).to eql true
+      end
+
       it 'adds their token to the board' do
         fakeIO = FakeIO.new( stdin: desired_position )
         player_token = 'X'
