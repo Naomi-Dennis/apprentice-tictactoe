@@ -46,6 +46,15 @@ describe TicTacToe do
         game = TicTacToe.new(io: FakeIO.new)
         expect(game.current_player).to eql 'X'
       end
+
+      it 'the second token will be "O"' do
+        game = TicTacToe.new(io: FakeIO.new)
+
+        game.begin_player_turn
+        game.end_player_turn
+
+        expect(game.current_player).to eql 'O'
+      end
     end
   end
 
