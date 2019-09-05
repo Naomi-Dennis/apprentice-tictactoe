@@ -36,6 +36,10 @@ class TicTacToe
      end
   end
 
+  def end_player_turn
+    self.current_token = "O"
+  end
+
   private
 
   attr_accessor :board, :current_token, :io

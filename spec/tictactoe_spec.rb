@@ -124,5 +124,33 @@ describe TicTacToe do
         expect(user_is_prompted_position_taken).to eql true
       end
     end
+
+    context 'when the user successfully places token' do
+      context 'allow next player to place a token' do
+        it 'places second player token on the board' do
+          def autoplay_player_one_turn
+             @game.begin_player_turn
+             @game.end_player_turn
+          end
+
+          def autoplay_player_two_turn
+            player_two_position = desired_position + 1
+            @game.begin_player_turn
+            @game.end_player_turn
+          end
+
+          player_two_token = 'O'
+          fakeIO = FakeIO.new(stdin: desired_position)
+          @game = TicTacToe.new(io: fakeIO)
+
+          autoplay_player_one_turn
+          autoplay_player_two_turn
+
+          updated_board = @game.render_board
+
+          expect(updated_board.include? player_two_token).to eql true
+        end
+      end
+    end
   end
 end
