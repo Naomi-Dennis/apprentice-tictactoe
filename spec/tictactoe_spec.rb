@@ -25,6 +25,10 @@ def is_row_outputed(io:, row:)
   expect(io.stdout.include?(row)).to eql true
 end
 
+def cycle_player_turn(game: ) 
+  game.cycle_player_turn
+end 
+
 describe TicTacToe do
   context 'when a new game is started' do
     context 'when the board is rendered' do
@@ -50,8 +54,7 @@ describe TicTacToe do
       it 'the second token will be "O"' do
         game = TicTacToe.new(io: FakeIO.new)
 
-        game.begin_player_turn
-        game.end_player_turn
+        game.cycle_player_turn
 
         expect(game.current_player).to eql 'O'
       end
@@ -92,7 +95,7 @@ describe TicTacToe do
         fakeIO = FakeIO.new(stdin: desired_position)
         game = TicTacToe.new(io: fakeIO)
 
-        game.begin_player_turn
+        game.cycle_player_turn
         user_is_prompted_to_select_space = fakeIO.stdout.grep(/[S|s]elect.*position/).any?
 
         expect(user_is_prompted_to_select_space).to eql true
@@ -103,7 +106,7 @@ describe TicTacToe do
         player_token = 'X'
         game = TicTacToe.new(io: fakeIO)
 
-        updated_board = game.begin_player_turn
+        updated_board = game.cycle_player_turn
 
         is_row_outputed(io: fakeIO, row: " |#{player_token}| ")
         expect(updated_board[desired_position]).to eql player_token
@@ -115,10 +118,10 @@ describe TicTacToe do
         fakeIO = FakeIO.new(stdin: desired_position)
         game = TicTacToe.new(io: fakeIO)
 
-        game.begin_player_turn
+        game.cycle_player_turn
 
         fakeIO.stdin = desired_position
-        game.begin_player_turn
+        game.cycle_player_turn
 
         user_is_prompted_position_taken = fakeIO.stdout.grep(/[P|p]osition.*taken/).any?
         expect(user_is_prompted_position_taken).to eql true
@@ -128,25 +131,14 @@ describe TicTacToe do
     context 'when the user successfully places token' do
       context 'allow next player to place a token' do
         it 'places second player token on the board' do
-          def autoplay_player_one_turn
-             @game.begin_player_turn
-             @game.end_player_turn
-          end
-
-          def autoplay_player_two_turn
-            player_two_position = desired_position + 1
-            @game.begin_player_turn
-            @game.end_player_turn
-          end
-
           player_two_token = 'O'
           fakeIO = FakeIO.new(stdin: desired_position)
-          @game = TicTacToe.new(io: fakeIO)
+          game = TicTacToe.new(io: fakeIO)
 
-          autoplay_player_one_turn
-          autoplay_player_two_turn
+          game.cycle_player_turn
+          game.cycle_player_turn 
 
-          updated_board = @game.render_board
+          updated_board = game.render_board
 
           expect(updated_board.include? player_two_token).to eql true
         end
