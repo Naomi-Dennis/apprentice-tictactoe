@@ -76,6 +76,7 @@ describe TicTacToe do
   end
 
   context 'when the user interacts with the board' do
+    let(:desired_position){  $desired_position =  4  }
 
     context 'when the user tries to place a token in a free space' do
       it 'prompt the user to select a space' do
