@@ -158,7 +158,7 @@ describe TicTacToe do
 
           current_token = game.current_player
           game.begin_player_turn
-          
+
           expect( game.current_player ).to eql current_token
         end
 
@@ -170,7 +170,7 @@ describe TicTacToe do
           game.begin_player_turn
           rendered_board = fakeIO.stdout[+(fakeIO.stdout.length - 5)..(fakeIO.stdout.length)]
           expected_board = [" | | ", "------"," | | ", "------", " | | "]
-          expect( rendered_board ).to eql expected_board  
+          expect( rendered_board ).to eql expected_board
         end
       end
     end
