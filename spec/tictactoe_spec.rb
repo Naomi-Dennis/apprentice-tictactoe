@@ -155,10 +155,14 @@ describe TicTacToe do
           fakeIO = FakeIO.new( stdin: -1 )
           game = TicTacToe.new(io: fakeIO)
 
-          current_token = game.current_player
+          player_one_token = game.current_player
+
+          game.begin_player_turn
+          expect( game.current_player ).to eql player_one_token
+          fakeIO.stdin = 5
           game.begin_player_turn
 
-          expect( game.current_player ).to eql current_token
+          expect(game.current_player).to_not eql player_one_token
         end
 
         it 'should re-render the board' do
