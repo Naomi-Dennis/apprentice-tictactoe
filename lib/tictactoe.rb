@@ -33,11 +33,13 @@ class TicTacToe
     if ![*1..9].include? desired_position
       io.puts 'Invalid position'
       io.puts select_another_position_prompt
+      render_board
     elsif board[desired_position] == ' '
       place_token(desired_position)
     else
       io.puts 'That position is taken!'
       io.puts select_another_position_prompt
+      render_board
      end
   end
 
