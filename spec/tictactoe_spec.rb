@@ -151,6 +151,16 @@ describe TicTacToe do
 
           expect( updated_board.include? 'X').to_not eql true
         end
+
+        it 'should not end the player\'s turn until a valid input is entered' do
+          fakeIO = FakeIO.new( stdin: -1 )
+          game = TicTacToe.new(io: fakeIO)
+
+          current_token = game.current_player
+          game.begin_player_turn
+
+          expect( game.current_player ).to eql current_token
+        end
       end
     end
   end
