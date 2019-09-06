@@ -131,10 +131,9 @@ describe TicTacToe do
     context 'when the user input is invalid' do
       context 'if the input is outside of the specified range' do
         it 'prompt the user to choose another position' do
-          fakeIO = FakeIO.new(stdin: desired_position)
+          fakeIO = FakeIO.new(stdin: -1)
           game = TicTacToe.new(io: fakeIO)
 
-          fakeIO.stdin = -1
           game.begin_player_turn
 
           user_is_prompted_position_invalid = fakeIO.stdout.grep(/[I|i]nvalid position/).any?
