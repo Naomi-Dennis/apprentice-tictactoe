@@ -142,6 +142,15 @@ describe TicTacToe do
           expect(user_is_prompted_to_select_space).to eql true
           expect(user_is_prompted_position_invalid).to eql true
         end
+
+        it 'should not place the token on the board' do
+          fakeIO = FakeIO.new(stdin: -1)
+          game = TicTacToe.new(io: fakeIO)
+
+          updated_board = game.begin_player_turn
+
+          expect( updated_board.include? 'X').to_not eql true
+        end
       end
     end
   end
