@@ -39,7 +39,7 @@ describe TicTacToe do
       it 'sets board data to empty spaces' do
         game = TicTacToe.new(io: FakeIO.new)
         all_spaces_empty = game.render_board.all? { |space| space == ' ' }
-        expect( all_spaces_empty ).to eql true
+        expect(all_spaces_empty).to eql true
       end
 
       it 'the first token will be "X"' do
@@ -76,54 +76,58 @@ describe TicTacToe do
   end
 
   context 'when the user interacts with the board' do
-    let(:desired_position){  $desired_position =  4  }
+    let(:desired_position) { $desired_position =  4  }
 
     context 'when the user tries to place a token in a free space' do
       it 'prompt the user to select a space' do
-        fakeIO = FakeIO.new( stdin: desired_position )
-        game = TicTacToe.new( io: fakeIO )
+        fakeIO = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: fakeIO)
 
         game.begin_player_turn
-        user_is_prompted_to_select_space  = fakeIO.stdout.grep(/[S|s]elect.*position/).any?
+        user_is_prompted_to_select_space = fakeIO.stdout.grep(/[S|s]elect.*position/).any?
 
-        expect( user_is_prompted_to_select_space ).to eql true
+        expect(user_is_prompted_to_select_space).to eql true
       end
 
       it 'adds their token to the board' do
-        fakeIO = FakeIO.new( stdin: desired_position )
+        fakeIO = FakeIO.new(stdin: desired_position)
         player_token = 'X'
         game = TicTacToe.new(io: fakeIO)
 
         updated_board = game.begin_player_turn
 
         is_row_outputed(io: fakeIO, row: " |#{player_token}| ")
-        expect( updated_board[desired_position] ).to eql player_token
+        expect(updated_board[desired_position]).to eql player_token
       end
     end
 
-    context 'when the user enters invalid input' do
-      context 'when the user tries to place a token in an occupied space' do
-        it "should prompt the user that it's taken" do
-          fakeIO = FakeIO.new( stdin: desired_position )
-          game = TicTacToe.new(io: fakeIO)
+    context 'when the user tries to place a token in an occupied space' do
+      it "should prompt the user that it's taken" do
+        fakeIO = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: fakeIO)
 
-          game.begin_player_turn
+        game.begin_player_turn
 
-          fakeIO.stdin = desired_position
-          game.begin_player_turn
+        fakeIO.stdin = desired_position
+        game.begin_player_turn
 
-          user_is_prompted_position_taken  = fakeIO.stdout.grep(/[P|p]osition.*taken/).any?
-          expect( user_is_prompted_position_taken ).to eql true
-        end
+        user_is_prompted_position_taken = fakeIO.stdout.grep(/[P|p]osition.*taken/).any?
+        expect(user_is_prompted_position_taken).to eql true
       end
-
       it 'should prompt the user to choose another position' do
-          fakeIO = FakeIO.new( stdin: desired_position )
-          game = TicTacToe.new(io: fakeIO)
+        fakeIO = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: fakeIO)
 
-          game.begin_player_turn
+        game.begin_player_turn
 
-          fakeIO.stdin = desired_position
+        fakeIO.stdin = desired_position
+        game.begin_player_turn
+
+        user_is_prompted_to_select_space = fakeIO.stdout.grep(/[S|s]elect another position/).any?
+        expect(user_is_prompted_to_select_space).to eql true
+      end
+    end
+
     context 'when the user input is invalid' do
       context 'if the input is outside of the specified range' do
         it 'prompt the user to choose another position' do
