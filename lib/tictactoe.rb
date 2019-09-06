@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class TicTacToe
-
-
   def initialize(io:)
     @board = Array.new(9, ' ')
     @current_token = 'X'
@@ -29,7 +27,6 @@ class TicTacToe
     current_token
   end
 
-
   def begin_player_turn
     select_another_position_prompt = 'Select another position to place your token [1 - 9]: '
     desired_position = io.gets.to_i
@@ -53,15 +50,14 @@ class TicTacToe
 
   attr_accessor :board, :current_token, :io, :move_valid
 
-
   def switch_turn
     if @move_valid
       if @current_token == 'X'
         @current_token = 'O'
-      elsif @current_token =='O'
-         @current_token = 'X'
+      elsif @current_token == 'O'
+        @current_token = 'X'
       end
-     @move_valid = false
+      @move_valid = false
     end
   end
 end
