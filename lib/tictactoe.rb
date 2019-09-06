@@ -33,6 +33,7 @@ class TicTacToe
       place_token(desired_position)
     else
       io.puts 'That position is taken!'
+      io.puts 'Select another position to place your token [1 - 9]: '
      end
   end
 

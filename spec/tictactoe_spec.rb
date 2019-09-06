@@ -101,18 +101,33 @@ describe TicTacToe do
       end
     end
 
-    context 'when the user tries to place a token in an occupied space' do
-      it "should prompt the user that it's taken" do
-        fakeIO = FakeIO.new( stdin: desired_position )
-        game = TicTacToe.new(io: fakeIO)
+    context 'when the user enters invalid input' do
+      context 'when the user tries to place a token in an occupied space' do
+        it "should prompt the user that it's taken" do
+          fakeIO = FakeIO.new( stdin: desired_position )
+          game = TicTacToe.new(io: fakeIO)
 
-        game.begin_player_turn
+          game.begin_player_turn
 
-        fakeIO.stdin = desired_position
-        game.begin_player_turn
+          fakeIO.stdin = desired_position
+          game.begin_player_turn
 
-        user_is_prompted_position_taken = fakeIO.stdout.grep(/[P|p]osition.*taken/).any? 
-        expect( user_is_prompted_position_taken  ).to eql true
+          user_is_prompted_position_taken  = fakeIO.stdout.grep(/[P|p]osition.*taken/).any?
+          expect( user_is_prompted_position_taken ).to eql true
+        end
+      end
+
+      it 'should prompt the user to choose another position' do
+          fakeIO = FakeIO.new( stdin: desired_position )
+          game = TicTacToe.new(io: fakeIO)
+
+          game.begin_player_turn
+
+          fakeIO.stdin = desired_position
+          game.begin_player_turn
+
+          user_is_prompted_to_select_space  = fakeIO.stdout.grep(/[S|s]elect another position/).any?
+          expect( user_is_prompted_to_select_space  ).to eql true
       end
     end
   end
