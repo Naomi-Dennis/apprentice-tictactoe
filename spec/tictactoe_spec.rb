@@ -50,20 +50,6 @@ describe TicTacToe do
   end
 
   context 'when a token is placed on an empty board' do
-    it 'the token can be placed anywhere on the board' do
-      first_desired_position = 3
-      second_desired_position = 5
-      fakeIO = FakeIO.new
-      game = TicTacToe.new(io: fakeIO)
-
-      game.place_token(first_desired_position)
-      updated_board = game.place_token(second_desired_position)
-
-      is_row_outputed(io: fakeIO, row: 'X| | ')
-      is_row_outputed(io: fakeIO, row: 'X| |X')
-      expect(updated_board[first_desired_position] && updated_board[second_desired_position]).to eql 'X'
-    end
-
     it 'renders the board after a token is placed' do
       fakeIO = FakeIO.new
       game = TicTacToe.new(io: fakeIO)
