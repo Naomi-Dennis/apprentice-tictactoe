@@ -22,7 +22,7 @@ class FakeIO
 end
 
 def is_row_outputed(io:, row:)
-  expect(io.stdout.include?(row)).to eql true
+  expect(io.stdout).to include row
 end
 
 describe TicTacToe do
