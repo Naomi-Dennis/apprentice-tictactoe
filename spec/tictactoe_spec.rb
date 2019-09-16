@@ -55,7 +55,7 @@ describe TicTacToe do
       game = TicTacToe.new(io: fakeIO)
 
       game.place_token(3)
-      expectedBoardOutput = [' | | ', '------', 'X| | ', '------', ' | | ']
+      expectedBoardOutput = [" | | \n------\nX| | \n------\n | | \n"]
 
       expect(fakeIO.stdout).to eql expectedBoardOutput
     end
@@ -82,7 +82,7 @@ describe TicTacToe do
 
         updated_board = game.begin_player_turn
 
-        is_row_outputed(io: fakeIO, row: " |#{player_token}| ")
+        is_row_outputed(io: fakeIO, row:/ \|X\| /)
         expect(updated_board[desired_position]).to eql player_token
       end
     end
@@ -157,9 +157,8 @@ describe TicTacToe do
 
           current_token = game.current_player
           game.begin_player_turn
-          rendered_board = fakeIO.stdout[+(fakeIO.stdout.length - 5)..(fakeIO.stdout.length)]
-          expected_board = [' | | ', '------', ' | | ', '------', ' | | ']
-          expect(rendered_board).to eql expected_board
+          expected_board = " | | \n------\n | | \n------\n | | \n"
+          expect(fakeIO.stdout).to include expected_board
         end
       end
     end
