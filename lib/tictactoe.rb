@@ -34,7 +34,8 @@ class TicTacToe
     desired_position = io.gets.to_i
     io.puts 'Select a position to place your token [1 - 9]: '
 
-    if ![*1..9].include? desired_position
+    list_of_accepted_inputs = [*1..9]
+    if !list_of_accepted_inputs.include? desired_position
       io.puts 'Invalid position'
       io.puts select_another_position_prompt
       render_board
