@@ -9,11 +9,14 @@ class TicTacToe
   end
 
   def render_board
-    io.puts "#{@board[0]}|#{@board[1]}|#{@board[2]}"
-    io.puts '------'
-    io.puts "#{@board[3]}|#{@board[4]}|#{@board[5]}"
-    io.puts '------'
-    io.puts "#{@board[6]}|#{@board[7]}|#{@board[8]}"
+    board_output = <<~BOARD_RENDER 
+    #{@board[0]}|#{@board[1]}|#{@board[2]}
+    ------
+    #{@board[3]}|#{@board[4]}|#{@board[5]}
+    ------
+    #{@board[6]}|#{@board[7]}|#{@board[8]}
+    BOARD_RENDER
+    io.puts board_output
     board
   end
 
