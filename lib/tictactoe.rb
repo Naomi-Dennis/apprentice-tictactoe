@@ -5,7 +5,6 @@ class TicTacToe
     @board = Array.new(9, ' ')
     @current_token = 'X'
     @io = io
-    @move_valid = false
   end
 
   def render_board
@@ -40,7 +39,6 @@ class TicTacToe
       io.puts select_another_position_prompt
       render_board
     elsif board[desired_position] == ' '
-      @move_valid = true
       place_token(desired_position)
     else
       io.puts 'That position is taken!'
@@ -51,16 +49,13 @@ class TicTacToe
 
   private
 
-  attr_accessor :board, :current_token, :io, :move_valid
+  attr_accessor :board, :current_token, :io
 
   def switch_turn
-    if @move_valid
       if @current_token == 'X'
         @current_token = 'O'
       elsif @current_token == 'O'
         @current_token = 'X'
       end
-      @move_valid = false
-    end
   end
 end
