@@ -45,7 +45,7 @@ class TicTacToe
       io.puts 'That position is taken!'
       io.puts select_another_position_prompt
       render_board
-     end
+    end
   end
 
   private
@@ -53,10 +53,10 @@ class TicTacToe
   attr_accessor :board, :current_token, :io
 
   def switch_turn
-      if @current_token == 'X'
-        @current_token = 'O'
-      elsif @current_token == 'O'
-        @current_token = 'X'
-      end
+    if @current_token == 'X'
+      @current_token = 'O'
+    elsif @current_token == 'O'
+      @current_token = 'X'
+    end
   end
 end
