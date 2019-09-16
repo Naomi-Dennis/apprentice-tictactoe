@@ -70,7 +70,7 @@ describe TicTacToe do
         game = TicTacToe.new(io: fakeIO)
 
         game.begin_player_turn
-        user_is_prompted_to_select_space = fakeIO.stdout.grep(/[S|s]elect.*position/).any?
+        user_is_prompted_to_select_space = fakeIO.stdout.grep(/select.*position/i).any?
 
         expect(user_is_prompted_to_select_space).to eql true
       end
@@ -97,7 +97,7 @@ describe TicTacToe do
         fakeIO.stdin = desired_position
         game.begin_player_turn
 
-        user_is_prompted_position_taken = fakeIO.stdout.grep(/[P|p]osition.*taken/).any?
+        user_is_prompted_position_taken = fakeIO.stdout.grep(/position.*taken/i).any?
         expect(user_is_prompted_position_taken).to eql true
       end
       it 'should prompt the user to choose another position' do
@@ -109,7 +109,7 @@ describe TicTacToe do
         fakeIO.stdin = desired_position
         game.begin_player_turn
 
-        user_is_prompted_to_select_space = fakeIO.stdout.grep(/[S|s]elect another position/).any?
+        user_is_prompted_to_select_space = fakeIO.stdout.grep(/select another position/i).any?
         expect(user_is_prompted_to_select_space).to eql true
       end
     end
@@ -122,8 +122,8 @@ describe TicTacToe do
 
           game.begin_player_turn
 
-          user_is_prompted_position_invalid = fakeIO.stdout.grep(/[I|i]nvalid position/).any?
-          user_is_prompted_to_select_space  = fakeIO.stdout.grep(/[S|s]elect another position/).any?
+          user_is_prompted_position_invalid = fakeIO.stdout.grep(/invalid position/i).any?
+          user_is_prompted_to_select_space  = fakeIO.stdout.grep(/select another position/i).any?
           expect(user_is_prompted_to_select_space).to eql true
           expect(user_is_prompted_position_invalid).to eql true
         end
