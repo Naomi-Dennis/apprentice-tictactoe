@@ -25,10 +25,6 @@ class TicTacToe
     render_board
   end
 
-  def current_player
-    current_token
-  end
-
   def begin_player_turn
     select_another_position_prompt = 'Select another position to place your token [1 - 9]: '
     desired_position = io.gets.to_i
