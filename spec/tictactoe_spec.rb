@@ -87,7 +87,7 @@ describe TicTacToe do
 
         updated_board = game.begin_player_turn
 
-        is_row_outputed(io: fakeIO, row:/ \|X\| /)
+        is_row_outputed(io: io, row:/ \|X\| /)
         expect(updated_board[desired_position]).to eql player_token
       end
     end
