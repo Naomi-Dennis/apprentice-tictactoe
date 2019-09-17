@@ -55,14 +55,14 @@ describe TicTacToe do
   end
 
   context 'when a token is placed on an empty board' do
-    it 'renders the board after a token is placed' do
-      fakeIO = FakeIO.new
-      game = TicTacToe.new(io: fakeIO)
+    it 'renders the board in a 3x3 after a token is placed' do
+      io = FakeIO.new
+      game = TicTacToe.new(io: io)
 
       game.place_token(3)
       expectedBoardOutput = [" | | \n------\nX| | \n------\n | | \n"]
 
-      expect(fakeIO.stdout).to eql expectedBoardOutput
+      expect(io.stdout).to eql expectedBoardOutput
     end
   end
 
@@ -71,19 +71,19 @@ describe TicTacToe do
 
     context 'when the user tries to place a token in a free space' do
       it 'prompt the user to select a space' do
-        fakeIO = FakeIO.new(stdin: desired_position)
-        game = TicTacToe.new(io: fakeIO)
+        io = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: io)
 
         game.begin_player_turn
-        user_is_prompted_to_select_space = fakeIO.stdout.grep(/select.*position/i).any?
+        current_output = io.stdout
 
-        expect(user_is_prompted_to_select_space).to eql true
+        expect(current_output).to include /select.*position/i
       end
 
       it 'adds their token to the board' do
-        fakeIO = FakeIO.new(stdin: desired_position)
+        io = FakeIO.new(stdin: desired_position)
         player_token = 'X'
-        game = TicTacToe.new(io: fakeIO)
+        game = TicTacToe.new(io: io)
 
         updated_board = game.begin_player_turn
 
@@ -94,28 +94,29 @@ describe TicTacToe do
 
     context 'when the user tries to place a token in an occupied space' do
       it "should prompt the user that it's taken" do
-        fakeIO = FakeIO.new(stdin: desired_position)
-        game = TicTacToe.new(io: fakeIO)
+        io = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: io)
 
         game.begin_player_turn
 
-        fakeIO.stdin = desired_position
+        io.stdin = desired_position
         game.begin_player_turn
 
-        user_is_prompted_position_taken = fakeIO.stdout.grep(/position.*taken/i).any?
-        expect(user_is_prompted_position_taken).to eql true
+        current_output = io.stdout
+
+        expect(current_output).to include /select.*position/i
       end
       it 'should prompt the user to choose another position' do
-        fakeIO = FakeIO.new(stdin: desired_position)
-        game = TicTacToe.new(io: fakeIO)
+        io = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: io)
 
         game.begin_player_turn
 
-        fakeIO.stdin = desired_position
+        io.stdin = desired_position
         game.begin_player_turn
+        current_output = io.stdout
 
-        user_is_prompted_to_select_space = fakeIO.stdout.grep(/select another position/i).any?
-        expect(user_is_prompted_to_select_space).to eql true
+        expect(current_output).to include /position.*taken/i
       end
     end
 
@@ -127,10 +128,9 @@ describe TicTacToe do
 
           game.begin_player_turn
 
-          user_is_prompted_position_invalid = fakeIO.stdout.grep(/invalid position/i).any?
-          user_is_prompted_to_select_space  = fakeIO.stdout.grep(/select another position/i).any?
-          expect(user_is_prompted_to_select_space).to eql true
-          expect(user_is_prompted_position_invalid).to eql true
+          current_output = io.stdout
+          expect(current_output).to include /invalid position/i
+          expect(current_output).to include /select another position/i
         end
 
         it 'should not place the token on the board' do
@@ -139,7 +139,7 @@ describe TicTacToe do
 
           updated_board = game.begin_player_turn
 
-          expect(updated_board.include?('X')).to_not eql true
+          expect(updated_board).to_not include /X/
         end
 
         it "should not end the player\'s turn until a valid input is entered" do
