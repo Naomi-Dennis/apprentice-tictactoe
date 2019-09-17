@@ -43,8 +43,13 @@ describe TicTacToe do
       end
 
       it 'the first token will be "X"' do
-        game = TicTacToe.new(io: FakeIO.new)
-        expect(game.current_player).to eql 'X'
+        io = FakeIO.new
+        game = TicTacToe.new(io: io)
+
+        game.place_token(1)
+
+        current_output = io.stdout
+        expect(current_output).to include /X/
       end
     end
   end
@@ -137,28 +142,30 @@ describe TicTacToe do
           expect(updated_board.include?('X')).to_not eql true
         end
 
-        it 'should not end the player\'s turn until a valid input is entered' do
-          fakeIO = FakeIO.new(stdin: -1)
-          game = TicTacToe.new(io: fakeIO)
-
-          player_one_token = game.current_player
+        it "should not end the player\'s turn until a valid input is entered" do
+          io = FakeIO.new(stdin: bad_input)
+          game = TicTacToe.new(io: io)
+          player_one_token = "X"
 
           game.begin_player_turn
-          expect(game.current_player).to eql player_one_token
-          fakeIO.stdin = 5
+
+          io.stdin = "5"
           game.begin_player_turn
 
-          expect(game.current_player).to_not eql player_one_token
+          current_output = io.stdout
+          expect(current_output).to_not include /O/
         end
 
         it 'should re-render the board' do
-          fakeIO = FakeIO.new(stdin: -1)
-          game = TicTacToe.new(io: fakeIO)
+          io = FakeIO.new(stdin: bad_input)
+          game = TicTacToe.new(io: io)
 
-          current_token = game.current_player
           game.begin_player_turn
+
           expected_board = " | | \n------\n | | \n------\n | | \n"
-          expect(fakeIO.stdout).to include expected_board
+          current_output = io.stdout
+
+          expect(current_output).to include expected_board
         end
       end
     end
