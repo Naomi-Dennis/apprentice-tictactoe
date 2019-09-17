@@ -121,10 +121,11 @@ describe TicTacToe do
     end
 
     context 'when the user input is invalid' do
+      let(:bad_input){ "-1" }
       context 'if the input is outside of the specified range' do
         it 'prompt the user to choose another position' do
-          fakeIO = FakeIO.new(stdin: -1)
-          game = TicTacToe.new(io: fakeIO)
+          io = FakeIO.new(stdin: bad_input)
+          game = TicTacToe.new(io: io)
 
           game.begin_player_turn
 
@@ -134,8 +135,8 @@ describe TicTacToe do
         end
 
         it 'should not place the token on the board' do
-          fakeIO = FakeIO.new(stdin: -1)
-          game = TicTacToe.new(io: fakeIO)
+          io = FakeIO.new(stdin: bad_input)
+          game = TicTacToe.new(io: io)
 
           updated_board = game.begin_player_turn
 
