@@ -113,6 +113,21 @@ describe TicTacToe do
 
         expect(current_output).to include /position.*taken/i
       end
+
+      it 'renders the board in a 3x3' do
+        io = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: io)
+
+        game.begin_player_turn
+
+        io.stdin = desired_position
+        game.begin_player_turn
+
+        expected_board_output = " | | \n------\n |X| \n------\n | | \n"
+        current_output = io.stdout
+
+        expect(current_output).to include expected_board_output
+      end
     end
 
     context 'when the user input is invalid' do
