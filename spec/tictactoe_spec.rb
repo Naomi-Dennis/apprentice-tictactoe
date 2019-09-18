@@ -8,14 +8,15 @@ class FakeIO
   def initialize(stdin: '', stdout: [])
     @stdin = stdin
     @stdout = stdout
+    @accepted_input = [*1..9].map!(&:to_s)
   end
 
   def puts(string)
     @stdout << string
   end
 
-  def gets
-    string_to_return = @stdin
+  def prompt_user_for_position
+    string_to_return = @accepted_input.include?(@stdin) ? @stdin.to_i : nil
     @stdin = ''
     string_to_return
   end
