@@ -26,27 +26,33 @@ class TicTacToe
   end
 
   def begin_player_turn
-    select_another_position_prompt = 'Select another position to place your token [1 - 9]: '
-    desired_position = io.gets.to_i
+    io.puts "----------------- Player #{current_token} Turn -------------"
     io.puts 'Select a position to place your token [1 - 9]: '
 
-    list_of_accepted_inputs = [*1..9]
-    if !list_of_accepted_inputs.include? desired_position
+    select_another_position_prompt = 'Select another position to place your token [1 - 9]: '
+    desired_position = io.prompt_user_for_position
+
+    input_is_not_valid = desired_position.nil?
+    if input_is_not_valid
       io.puts 'Invalid position'
       io.puts select_another_position_prompt
-      render_board
-    elsif board[desired_position] == ' '
-      place_token(desired_position)
-    else
+    elsif !position_is_free(desired_position)
       io.puts 'That position is taken!'
       io.puts select_another_position_prompt
-      render_board
+    else
+      place_token(desired_position)
     end
+
+    render_board
   end
 
   private
 
   attr_accessor :board, :current_token, :io
+
+  def position_is_free(position)
+    board[ position.to_i ] == ' '
+  end
 
   def switch_turn
     if @current_token == 'X'
