@@ -74,7 +74,8 @@ describe TicTacToe do
         updated_board = game.begin_player_turn
 
         is_row_outputed(io: io, row:/ \|X\| /)
-        expect(updated_board[desired_position]).to eql player_token
+      end
+
       it 'renders the board in a 3x3' do
         io = FakeIO.new(stdin: desired_position)
         game = TicTacToe.new(io: io)
