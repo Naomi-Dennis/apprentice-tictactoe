@@ -8,7 +8,7 @@ class TicTacToe
   end
 
   def render_board
-    board_output = <<~BOARD_RENDER 
+    board_output = <<~BOARD_RENDER
     #{@board[0]}|#{@board[1]}|#{@board[2]}
     ------
     #{@board[3]}|#{@board[4]}|#{@board[5]}
