@@ -43,26 +43,12 @@ describe TicTacToe do
       end
 
       it 'the first token will be "X"' do
-        io = FakeIO.new
+        io = FakeIO.new(stdin: "1")
         game = TicTacToe.new(io: io)
-
-        game.place_token(1)
-
+        game.begin_player_turn
         current_output = io.stdout
-        expect(current_output).to include /X/
+        expect(current_output).to include /Player X/
       end
-    end
-  end
-
-  context 'when a token is placed on an empty board' do
-    it 'renders the board in a 3x3 after a token is placed' do
-      io = FakeIO.new
-      game = TicTacToe.new(io: io)
-
-      game.place_token(3)
-      expectedBoardOutput = [" | | \n------\nX| | \n------\n | | \n"]
-
-      expect(io.stdout).to eql expectedBoardOutput
     end
   end
 
@@ -89,6 +75,15 @@ describe TicTacToe do
 
         is_row_outputed(io: io, row:/ \|X\| /)
         expect(updated_board[desired_position]).to eql player_token
+      it 'renders the board in a 3x3' do
+        io = FakeIO.new(stdin: desired_position)
+        game = TicTacToe.new(io: io)
+
+        game.begin_player_turn
+        expectedBoardOutput = " | | \n------\n |X| \n------\n | | \n"
+
+        current_output = io.stdout
+        expect(current_output).to include expectedBoardOutput
       end
     end
 

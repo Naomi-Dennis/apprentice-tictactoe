@@ -19,12 +19,6 @@ class TicTacToe
     board
   end
 
-  def place_token(position)
-    board[position] = current_token
-    switch_turn
-    render_board
-  end
-
   def begin_player_turn
     io.puts "----------------- Player #{current_token} Turn -------------"
     io.puts 'Select a position to place your token [1 - 9]: '
@@ -52,6 +46,15 @@ class TicTacToe
 
   def position_is_free(position)
     board[ position.to_i ] == ' '
+  end
+
+  def place_token(position)
+    board[position.to_i] = current_token
+    end_player_turn
+  end
+
+  def end_player_turn
+    switch_turn
   end
 
   def switch_turn
