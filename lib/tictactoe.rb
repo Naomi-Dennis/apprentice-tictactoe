@@ -66,4 +66,11 @@ class TicTacToe
       @current_token = 'X'
     end
   end
+
+  class Board
+    def initialize(layout: )
+      @layout = layout
+    end
+
+  end
 end
