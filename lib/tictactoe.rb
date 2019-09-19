@@ -3,6 +3,8 @@
 class TicTacToe
   def initialize(io:)
     @board = Array.new(9, ' ')
+  def initialize(io:, board:)
+    @board = board
     @current_token = 'X'
     @io = io
   end
