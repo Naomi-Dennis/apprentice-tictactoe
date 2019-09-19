@@ -11,32 +11,35 @@ class TicTacToe
 
   def render_board
     board_output = <<~BOARD_RENDER
-    #{@board[0]}|#{@board[1]}|#{@board[2]}
+    #{@board.get_info_at_position(position: 0)}|#{@board.get_info_at_position(position: 1)}|#{@board.get_info_at_position(position: 2)}
     ------
-    #{@board[3]}|#{@board[4]}|#{@board[5]}
+    #{@board.get_info_at_position(position: 3)}|#{@board.get_info_at_position(position: 4)}|#{@board.get_info_at_position(position: 5)}
     ------
-    #{@board[6]}|#{@board[7]}|#{@board[8]}
+    #{@board.get_info_at_position(position: 6)}|#{@board.get_info_at_position(position: 7)}|#{@board.get_info_at_position(position: 8)}
     BOARD_RENDER
-    io.puts board_output
-    board
+    io.output_to_user board_output
+    board_output
   end
 
   def begin_player_turn
     io.puts "----------------- Player #{current_token} Turn -------------"
     io.puts 'Select a position to place your token [1 - 9]: '
+    io.output_to_user "----------------- Player #{current_token} Turn -------------"
+    io.output_to_user 'Select a position to place your token [1 - 9]: '
 
     select_another_position_prompt = 'Select another position to place your token [1 - 9]: '
     desired_position = io.prompt_user_for_position
 
     input_is_not_valid = desired_position.nil?
     if input_is_not_valid
-      io.puts 'Invalid position'
-      io.puts select_another_position_prompt
+      io.output_to_user 'Invalid position'
+      io.output_to_user select_another_position_prompt
     elsif !position_is_free(desired_position)
-      io.puts 'That position is taken!'
-      io.puts select_another_position_prompt
+      io.output_to_user 'That position is taken!'
+      io.output_to_user select_another_position_prompt
     else
       place_token(desired_position)
+      end_player_turn
     end
 
     render_board
@@ -47,7 +50,7 @@ class TicTacToe
   attr_accessor :board, :current_token, :io
 
   def position_is_free(position)
-    board[ position.to_i ] == ' '
+    board.get_info_at_position(position: position) == ' '
   end
 
   def place_token(position)
@@ -73,6 +76,10 @@ class TicTacToe
 
     def assign_token_to_position(position:, token:)
       @layout[position.to_i] = token
+    end
+
+    def get_info_at_position(position: )
+      @layout[position.to_i]
     end
 
   end
