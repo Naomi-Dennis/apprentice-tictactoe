@@ -47,6 +47,7 @@ describe TicTacToe do
         io = FakeIO.new(stdin: "1")
         game = TicTacToe.new(io: io)
         game.begin_player_turn
+        game.cycle_player_turn
         current_output = io.stdout
         expect(current_output).to include /Player X/
       end
@@ -61,7 +62,7 @@ describe TicTacToe do
         io = FakeIO.new(stdin: desired_position)
         game = TicTacToe.new(io: io)
 
-        game.begin_player_turn
+        game.cycle_player_turn
         current_output = io.stdout
 
         expect(current_output).to include /select.*position/i
@@ -72,7 +73,7 @@ describe TicTacToe do
         player_token = 'X'
         game = TicTacToe.new(io: io)
 
-        updated_board = game.begin_player_turn
+        updated_board = game.cycle_player_turn
 
         is_row_outputed(io: io, row:/ \|X\| /)
       end
@@ -81,7 +82,7 @@ describe TicTacToe do
         io = FakeIO.new(stdin: desired_position)
         game = TicTacToe.new(io: io)
 
-        game.begin_player_turn
+        game.cycle_player_turn
         expectedBoardOutput = " | | \n------\n |X| \n------\n | | \n"
 
         current_output = io.stdout
@@ -94,10 +95,10 @@ describe TicTacToe do
         io = FakeIO.new(stdin: desired_position)
         game = TicTacToe.new(io: io)
 
-        game.begin_player_turn
+        game.cycle_player_turn
 
         io.stdin = desired_position
-        game.begin_player_turn
+        game.cycle_player_turn
 
         current_output = io.stdout
 
@@ -107,10 +108,10 @@ describe TicTacToe do
         io = FakeIO.new(stdin: desired_position)
         game = TicTacToe.new(io: io)
 
-        game.begin_player_turn
+        game.cycle_player_turn
 
         io.stdin = desired_position
-        game.begin_player_turn
+        game.cycle_player_turn
         current_output = io.stdout
 
         expect(current_output).to include /position.*taken/i
@@ -120,10 +121,10 @@ describe TicTacToe do
         io = FakeIO.new(stdin: desired_position)
         game = TicTacToe.new(io: io)
 
-        game.begin_player_turn
+        game.cycle_player_turn
 
         io.stdin = desired_position
-        game.begin_player_turn
+        game.cycle_player_turn
 
         expected_board_output = " | | \n------\n |X| \n------\n | | \n"
         current_output = io.stdout
@@ -139,7 +140,7 @@ describe TicTacToe do
           io = FakeIO.new(stdin: bad_input)
           game = TicTacToe.new(io: io)
 
-          game.begin_player_turn
+          game.cycle_player_turn
 
           current_output = io.stdout
           expect(current_output).to include /invalid position/i
@@ -150,7 +151,7 @@ describe TicTacToe do
           io = FakeIO.new(stdin: bad_input)
           game = TicTacToe.new(io: io)
 
-          updated_board = game.begin_player_turn
+          game.cycle_player_turn
 
           expect(updated_board).to_not include /X/
         end
@@ -160,10 +161,10 @@ describe TicTacToe do
           game = TicTacToe.new(io: io)
           player_one_token = "X"
 
-          game.begin_player_turn
+          game.cycle_player_turn
 
           io.stdin = "5"
-          game.begin_player_turn
+          game.cycle_player_turn
 
           current_output = io.stdout
           expect(current_output).to_not include /O/
@@ -173,7 +174,7 @@ describe TicTacToe do
           io = FakeIO.new(stdin: bad_input)
           game = TicTacToe.new(io: io)
 
-          game.begin_player_turn
+          game.cycle_player_turn
 
           expected_board = " | | \n------\n | | \n------\n | | \n"
           current_output = io.stdout

@@ -21,9 +21,7 @@ class TicTacToe
     board_output
   end
 
-  def begin_player_turn
-    io.puts "----------------- Player #{current_token} Turn -------------"
-    io.puts 'Select a position to place your token [1 - 9]: '
+  def cycle_player_turn
     io.output_to_user "----------------- Player #{current_token} Turn -------------"
     io.output_to_user 'Select a position to place your token [1 - 9]: '
 
