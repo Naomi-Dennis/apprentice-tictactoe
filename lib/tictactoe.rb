@@ -51,8 +51,7 @@ class TicTacToe
   end
 
   def place_token(position)
-    board[position.to_i] = current_token
-    end_player_turn
+    board.assign_token_to_position(position: position, token: current_token)
   end
 
   def end_player_turn
@@ -70,6 +69,10 @@ class TicTacToe
   class Board
     def initialize(layout: )
       @layout = layout
+    end
+
+    def assign_token_to_position(position:, token:)
+      @layout[position.to_i] = token
     end
 
   end
