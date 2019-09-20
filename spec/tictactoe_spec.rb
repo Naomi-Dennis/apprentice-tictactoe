@@ -27,7 +27,6 @@ def is_row_outputed(io:, row:)
   expect(io.stdout).to include row
 end
 
-def create_new_game(io: FakeIO.new, board: TicTacToe::Board.new(layout: Array.new(9, ' ' ) ) )
 def place_token_on_test_board(position:, token:)
   "1|2|3\n------\n4|5|6\n------\n7|8|9\n".sub position, token
 end 
@@ -43,7 +42,7 @@ describe TicTacToe do
       it 'sets board data to empty spaces' do
         game = create_new_game
         new_game_board = game.render_board
-        expect(new_game_board).to eql " | | \n------\n | | \n------\n | | \n"
+        expect(new_game_board).to eql empty_board
       end
 
       it 'the first token will be "X"' do
@@ -77,7 +76,7 @@ describe TicTacToe do
 
         updated_board = game.cycle_player_turn
 
-        is_row_outputed(io: io, row:/ \|X\| /)
+        is_row_outputed(io: io, row:/4\|X\|6/)
       end
 
       it 'renders the board in a 3x3' do
@@ -85,7 +84,7 @@ describe TicTacToe do
         game = create_new_game(io: io)
 
         game.cycle_player_turn
-        expectedBoardOutput = " | | \n------\n |X| \n------\n | | \n"
+        expectedBoardOutput = place_token_on_test_board position: desired_position, token: "X"
 
         current_output = io.stdout
         expect(current_output).to include expectedBoardOutput
@@ -128,7 +127,7 @@ describe TicTacToe do
         io.stdin = desired_position
         game.cycle_player_turn
 
-        expected_board_output = " | | \n------\n |X| \n------\n | | \n"
+        expected_board_output = place_token_on_test_board position: desired_position, token: "X"
         current_output = io.stdout
 
         expect(current_output).to include expected_board_output
@@ -154,7 +153,7 @@ describe TicTacToe do
           game = create_new_game(io: io)
 
           game.cycle_player_turn
-          expected_board_output = " | | \n------\n | | \n------\n | | \n"
+          expected_board_output = empty_board
           current_output = io.stdout
 
           expect(current_output).to include expected_board_output
@@ -180,7 +179,7 @@ describe TicTacToe do
 
           game.cycle_player_turn
 
-          expected_board = " | | \n------\n | | \n------\n | | \n"
+          expected_board = empty_board
           current_output = io.stdout
 
           expect(current_output).to include expected_board
