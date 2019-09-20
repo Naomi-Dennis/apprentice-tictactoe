@@ -11,7 +11,7 @@ class FakeIO
     @accepted_input = [*1..9].map!(&:to_s)
   end
 
-  def puts(string)
+  def output_to_user(string)
     @stdout << string
   end
 
@@ -21,6 +21,7 @@ class FakeIO
     string_to_return
   end
 end
+
 
 def is_row_outputed(io:, row:)
   expect(io.stdout).to include row
