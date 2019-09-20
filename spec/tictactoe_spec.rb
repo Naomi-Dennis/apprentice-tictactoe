@@ -26,6 +26,10 @@ def is_row_outputed(io:, row:)
   expect(io.stdout).to include row
 end
 
+def create_new_game(io: FakeIO.new, board: TicTacToe::Board.new(layout: Array.new(9, ' ' ) ) )
+  TicTacToe.new(io: io, board: board)
+end
+
 describe TicTacToe do
   context 'when a new game is started' do
     context 'when the board is rendered' do
@@ -45,8 +49,7 @@ describe TicTacToe do
 
       it 'the first token will be "X"' do
         io = FakeIO.new(stdin: "1")
-        game = TicTacToe.new(io: io)
-        game.begin_player_turn
+        game = create_new_game(io: io)
         game.cycle_player_turn
         current_output = io.stdout
         expect(current_output).to include /Player X/
@@ -60,7 +63,7 @@ describe TicTacToe do
     context 'when the user tries to place a token in a free space' do
       it 'prompt the user to select a space' do
         io = FakeIO.new(stdin: desired_position)
-        game = TicTacToe.new(io: io)
+        game = create_new_game(io: io)
 
         game.cycle_player_turn
         current_output = io.stdout
@@ -71,7 +74,7 @@ describe TicTacToe do
       it 'adds their token to the board' do
         io = FakeIO.new(stdin: desired_position)
         player_token = 'X'
-        game = TicTacToe.new(io: io)
+        game = create_new_game(io: io)
 
         updated_board = game.cycle_player_turn
 
@@ -80,7 +83,7 @@ describe TicTacToe do
 
       it 'renders the board in a 3x3' do
         io = FakeIO.new(stdin: desired_position)
-        game = TicTacToe.new(io: io)
+        game = create_new_game(io: io)
 
         game.cycle_player_turn
         expectedBoardOutput = " | | \n------\n |X| \n------\n | | \n"
@@ -93,7 +96,7 @@ describe TicTacToe do
     context 'when the user tries to place a token in an occupied space' do
       it "should prompt the user that it's taken" do
         io = FakeIO.new(stdin: desired_position)
-        game = TicTacToe.new(io: io)
+        game = create_new_game(io: io)
 
         game.cycle_player_turn
 
@@ -106,7 +109,7 @@ describe TicTacToe do
       end
       it 'should prompt the user to choose another position' do
         io = FakeIO.new(stdin: desired_position)
-        game = TicTacToe.new(io: io)
+        game = create_new_game(io: io)
 
         game.cycle_player_turn
 
@@ -119,7 +122,7 @@ describe TicTacToe do
 
       it 'renders the board in a 3x3' do
         io = FakeIO.new(stdin: desired_position)
-        game = TicTacToe.new(io: io)
+        game = create_new_game(io: io)
 
         game.cycle_player_turn
 
@@ -138,7 +141,7 @@ describe TicTacToe do
       context 'if the input is outside of the specified range' do
         it 'prompt the user to choose another position' do
           io = FakeIO.new(stdin: bad_input)
-          game = TicTacToe.new(io: io)
+          game = create_new_game(io: io)
 
           game.cycle_player_turn
 
@@ -149,7 +152,7 @@ describe TicTacToe do
 
         it 'should not place the token on the board' do
           io = FakeIO.new(stdin: bad_input)
-          game = TicTacToe.new(io: io)
+          game = create_new_game(io: io)
 
           game.cycle_player_turn
 
@@ -158,7 +161,7 @@ describe TicTacToe do
 
         it "should not end the player\'s turn until a valid input is entered" do
           io = FakeIO.new(stdin: bad_input)
-          game = TicTacToe.new(io: io)
+          game = create_new_game(io: io)
           player_one_token = "X"
 
           game.cycle_player_turn
@@ -172,7 +175,7 @@ describe TicTacToe do
 
         it 'should re-render the board' do
           io = FakeIO.new(stdin: bad_input)
-          game = TicTacToe.new(io: io)
+          game = create_new_game(io: io)
 
           game.cycle_player_turn
 
