@@ -156,8 +156,10 @@ describe TicTacToe do
           game = create_new_game(io: io)
 
           game.cycle_player_turn
+          expected_board_output = " | | \n------\n | | \n------\n | | \n"
+          current_output = io.stdout
 
-          expect(updated_board).to_not include /X/
+          expect(current_output).to include expected_board_output
         end
 
         it "should not end the player\'s turn until a valid input is entered" do
