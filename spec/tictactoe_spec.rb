@@ -16,7 +16,7 @@ class FakeIO
   end
 
   def prompt_user_for_position
-    string_to_return = @accepted_input.include?(@stdin) ? @stdin.to_i : nil
+    string_to_return = @accepted_input.include?(@stdin) ? @stdin.to_i - 1: nil
     @stdin = ''
     string_to_return
   end
@@ -58,7 +58,7 @@ describe TicTacToe do
   end
 
   context 'when the user interacts with the board' do
-    let(:desired_position) { $desired_position =  "4"  }
+    let(:desired_position) { $desired_position =  "5"  }
 
     context 'when the user tries to place a token in a free space' do
       it 'prompt the user to select a space' do
