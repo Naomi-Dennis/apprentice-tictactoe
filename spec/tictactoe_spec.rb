@@ -37,6 +37,7 @@ def create_new_game(io: FakeIO.new, board: TicTacToe::Board.new(layout: [*1..9].
 end
 
 describe TicTacToe do
+  let(:empty_board){ "1|2|3\n------\n4|5|6\n------\n7|8|9\n" } 
   context 'when a new game is started' do
     context 'when the board is empty' do
       it 'sets board data to empty spaces' do
