@@ -33,14 +33,6 @@ end
 
 describe TicTacToe do
   context 'when a new game is started' do
-    context 'when the board is rendered' do
-      it 'returns a single list with 9 elements' do
-        game = TicTacToe.new(io: FakeIO.new)
-
-        expect(game.render_board.length).to eql 9
-      end
-    end
-
     context 'when the board is empty' do
       it 'sets board data to empty spaces' do
         game = TicTacToe.new(io: FakeIO.new)
