@@ -35,9 +35,9 @@ describe TicTacToe do
   context 'when a new game is started' do
     context 'when the board is empty' do
       it 'sets board data to empty spaces' do
-        game = TicTacToe.new(io: FakeIO.new)
-        all_spaces_empty = game.render_board.all? { |space| space == ' ' }
-        expect(all_spaces_empty).to eql true
+        game = create_new_game
+        new_game_board = game.render_board
+        expect(new_game_board).to eql " | | \n------\n | | \n------\n | | \n"
       end
 
       it 'the first token will be "X"' do
