@@ -28,6 +28,10 @@ def is_row_outputed(io:, row:)
 end
 
 def create_new_game(io: FakeIO.new, board: TicTacToe::Board.new(layout: Array.new(9, ' ' ) ) )
+def place_token_on_test_board(position:, token:)
+  "1|2|3\n------\n4|5|6\n------\n7|8|9\n".sub position, token
+end 
+
   TicTacToe.new(io: io, board: board)
 end
 
