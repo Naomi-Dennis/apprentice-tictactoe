@@ -46,7 +46,8 @@ class TicTacToe
   attr_accessor :board, :current_token, :io
 
   def position_is_free(position)
-    board.get_info_at_position(position: position) == ' '
+    empty_position_label = (position + 1).to_s
+    board.get_info_at_position(position: position) == empty_position_label
   end
 
   def place_token(position)
