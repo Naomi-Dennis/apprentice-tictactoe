@@ -19,6 +19,10 @@ class FakeIO
     @stdin = ''
     string_to_return
   end
+
+  def current_output
+    @stdout
+  end
 end
 
 def is_row_outputed(io:, row:)
