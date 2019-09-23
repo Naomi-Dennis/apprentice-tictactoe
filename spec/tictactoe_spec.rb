@@ -27,15 +27,11 @@ end
 
 describe TicTacToe do
   context 'when a new game is started' do
-      it 'the first token will be "X"' do
-        io = FakeIO.new
-        game = TicTacToe.new(io: io)
-
-        game.place_token(1)
-
-        current_output = io.stdout
-        expect(current_output).to include /X/
-      end
+    it 'the first token will be "X"' do
+      io = FakeIO.new
+      game = TicTacToe.new(io: io)
+      game.place_token(1)
+      expect(io.current_output).to include(/X/)
     end
   end
 
