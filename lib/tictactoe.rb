@@ -24,22 +24,10 @@ class TicTacToe
   end
 
   def begin_player_turn
-    select_another_position_prompt = 'Select another position to place your token [1 - 9]: '
-    desired_position = io.gets.to_i
-    io.puts 'Select a position to place your token [1 - 9]: '
-
-    list_of_accepted_inputs = [*1..9]
-    if !list_of_accepted_inputs.include? desired_position
-      io.puts 'Invalid position'
-      io.puts select_another_position_prompt
-      render_board
-    elsif board[desired_position] == ' '
-      place_token(desired_position)
-    else
-      io.puts 'That position is taken!'
-      io.puts select_another_position_prompt
-      render_board
-    end
+    desired_position = prompt_user_for_input
+    input_is_valid = validate(user_input: desired_position, board: @board)
+    place_token(desired_position) if input_is_valid
+    render_board
   end
 
   private
