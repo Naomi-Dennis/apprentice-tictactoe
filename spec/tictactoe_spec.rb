@@ -26,17 +26,22 @@ class FakeIO
 end
 
 describe TicTacToe do
+  let(:blank_board_output) { "1|2|3\n------\n4|5|6\n------\n7|8|9\n" }
+
   def create_game(io:, board: Board.new(layout: [*1..9].map(&:to_s)))
     TicTacToe.new(io: io, board: board)
   end
+
   def board_output_with(token:, position:)
     blank_board_output.sub(position.to_s, token)
   end
+
   context 'when a new game is started' do
     it 'the first token will be "X"' do
       io = FakeIO.new
       game = create_game(io: io)
       game.place_token(1)
+      game.render_board
       expect(io.current_output).to include(/X/)
     end
   end
@@ -46,13 +51,14 @@ describe TicTacToe do
       io = FakeIO.new
       game = create_game(io: io)
       game.place_token(3)
-      expected_board_output = " | | \n------\nX| | \n------\n | | \n"
+      game.render_board
+      expected_board_output = board_output_with(token: 'X', position: 3)
       expect(io.current_output).to include expected_board_output
     end
   end
 
   context 'when the user interacts with the board' do
-    let(:desired_position) { '4' }
+    let(:test_position) { '4' }
 
     def simulate_turn_with_input(game:, io:, input:)
       io.stdin = input
@@ -61,31 +67,33 @@ describe TicTacToe do
 
     context 'when the user tries to place a token in a free space' do
       it 'prompt the user to select a space' do
-        io = FakeIO.new(stdin: desired_position)
-        simulate_turn_with_input(game: game, io: io, input: desired_position)
+        io = FakeIO.new(stdin: test_position)
         game = create_game(io: io)
+        simulate_turn_with_input(game: game, io: io, input: test_position)
         expect(io.current_output).to include(/select.*position/i)
       end
 
       it 'adds their token to the board' do
-        io = FakeIO.new(stdin: desired_position)
+        io = FakeIO.new(stdin: test_position)
         game = create_game(io: io)
         game.begin_player_turn
+        board_with_token = board_output_with(token: 'X', position: test_position)
+        expect(io.current_output).to include board_with_token
       end
     end
 
     context 'when the user tries to place a token in an occupied space' do
       it "prompt the user that it's taken" do
-        io = FakeIO.new(stdin: desired_position)
+        io = FakeIO.new(stdin: test_position)
         game = create_game(io: io)
         game.begin_player_turn
         expect(io.current_output).to include(/select.*position/i)
       end
       it 'prompt the user to choose another position' do
-        io = FakeIO.new(stdin: desired_position)
+        io = FakeIO.new(stdin: test_position)
         game = create_game(io: io)
         game.begin_player_turn
-        simulate_turn_with_input(game: game, io: io, input: desired_position)
+        simulate_turn_with_input(game: game, io: io, input: test_position)
         expect(io.current_output).to include(/position.*taken/i)
       end
     end
@@ -120,10 +128,10 @@ describe TicTacToe do
 
     context "when the player's turn ends" do
       it 're-render the board' do
-        io = FakeIO.new(stdin: '0')
+        io = FakeIO.new(stdin: '1')
         game = create_game(io: io)
         game.begin_player_turn
-        expected_board = " | | \n------\n | | \n------\n | | \n"
+        expected_board = board_output_with(token: 'X', position: '1')
         expect(io.current_output).to include expected_board
       end
     end
