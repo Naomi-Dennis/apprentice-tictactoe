@@ -8,15 +8,14 @@ class TicTacToe
   end
 
   def render_board
-    board_output = <<~BOARD_RENDER 
-    #{@board[0]}|#{@board[1]}|#{@board[2]}
-    ------
-    #{@board[3]}|#{@board[4]}|#{@board[5]}
-    ------
-    #{@board[6]}|#{@board[7]}|#{@board[8]}
+    board_output = <<~BOARD_RENDER
+      #{@board.at(position: 1)}|#{@board.at(position: 2)}|#{@board.at(position: 3)}
+      ------
+      #{@board.at(position: 4)}|#{@board.at(position: 5)}|#{@board.at(position: 6)}
+      ------
+      #{@board.at(position: 7)}|#{@board.at(position: 8)}|#{@board.at(position: 9)}
     BOARD_RENDER
     io.puts board_output
-    board
   end
 
   def place_token(position)
