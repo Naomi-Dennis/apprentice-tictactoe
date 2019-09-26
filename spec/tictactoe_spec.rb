@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 require 'tictactoe'
-
+require 'board'
 class FakeIO
   attr_accessor :stdin, :stdout
   def initialize(stdin: '', stdout: [])
