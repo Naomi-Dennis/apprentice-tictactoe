@@ -19,9 +19,8 @@ class TicTacToe
   end
 
   def place_token(position)
-    board[position] = current_token
+    board.put(token: current_token, position: position)
     switch_turn
-    render_board
   end
 
   def begin_player_turn
