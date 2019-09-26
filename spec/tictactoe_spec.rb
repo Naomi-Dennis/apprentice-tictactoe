@@ -25,10 +25,6 @@ class FakeIO
   end
 end
 
-def is_row_outputed(io:, row:)
-  expect(io.stdout).to include row
-end
-
 describe TicTacToe do
   context 'when a new game is started' do
     it 'the first token will be "X"' do
