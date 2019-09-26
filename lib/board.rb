@@ -30,4 +30,7 @@ class Board
     position.positive? && position <= @layout.length
   end
 
+  def occupied_at(position:)
+    (@layout.none? { |space| space == position.to_s})
+  end
 end
