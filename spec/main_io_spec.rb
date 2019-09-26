@@ -44,14 +44,6 @@ describe MainIO do
       input_result = io.gets
       expect(input_result).to eql test_input
     end
-
-    it 'uses stdin to capture the string' do
-      spy = FakeSpy.new
-      spy.watch(method: :gets)
-      io = MainIO.new(stdin: spy, stdout: FakeStdout)
-      io.gets
-      expect(spy.times_called).to be 1
-    end
   end
 
   context 'when showing output' do
@@ -68,14 +60,6 @@ describe MainIO do
         output_result = io.puts 'this', 'is', 'a', 'test'
         expect(output_result).to eql "this\nis\na\ntest"
       end
-    end
-
-    it 'uses stdout to output the string' do
-      spy = FakeSpy.new
-      spy.watch(method: :puts)
-      io = MainIO.new(stdin: FakeStdin, stdout: spy)
-      io.puts 'some kind of input'
-      expect(spy.times_called).to be 1
     end
   end
 end
