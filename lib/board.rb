@@ -26,4 +26,8 @@ class Board
     @layout[position - 1] = token
   end
 
+  def has(position:)
+    position.positive? && position <= @layout.length
+  end
+
 end
