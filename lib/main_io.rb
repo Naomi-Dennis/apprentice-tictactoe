@@ -4,4 +4,8 @@ class MainIO
     @stdout = stdout
   end
 
+  def gets
+    @stdin.gets
+  end
+
 end
