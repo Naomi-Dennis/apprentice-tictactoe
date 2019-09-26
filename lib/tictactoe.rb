@@ -34,6 +34,35 @@ class TicTacToe
 
   attr_accessor :board, :current_token, :io
 
+  def prompt_user_for_input
+    prompt_select_position
+    desired_position = io.gets.to_i
+    desired_position
+  end
+
+  def validate(user_input:, board:)
+    tell_user_position_is_invalid unless board.has(position: user_input)
+    tell_user_position_is_taken if board.occupied_at(position: user_input)
+    ask_user_select_another_position
+    board.has(position: user_input) && !board.occupied_at(position: user_input)
+  end
+
+  def ask_user_select_another_position
+    io.puts 'Select another position to place your token [1 - 9]:'
+  end
+
+  def prompt_select_position
+    io.puts 'Select a position to place your token [1 - 9]: '
+  end
+
+  def tell_user_position_is_invalid
+    io.puts 'Invalid position'
+  end
+
+  def tell_user_position_is_taken
+    io.puts 'That position is taken!'
+  end
+
   def switch_turn
     if @current_token == 'X'
       @current_token = 'O'
