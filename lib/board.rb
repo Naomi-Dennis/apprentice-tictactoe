@@ -10,4 +10,8 @@ class Board
     @layout.all?(&cells_equal_to_a_token)
   end
 
+  def at(position:)
+    @layout[position - 1]
+  end
+
 end
