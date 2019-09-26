@@ -8,4 +8,7 @@ class MainIO
     @stdin.gets
   end
 
+  def puts(*output)
+    @stdout.puts output.join("\n")
+  end
 end
