@@ -71,7 +71,6 @@ describe TicTacToe do
         io = FakeIO.new(stdin: desired_position)
         game = create_game(io: io)
         game.begin_player_turn
-        is_row_outputed(io: io, row: / \|X\| /)
       end
     end
 
