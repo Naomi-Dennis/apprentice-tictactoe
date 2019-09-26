@@ -22,4 +22,8 @@ class Board
     requested_row
   end
 
+  def put(token:, position:)
+    @layout[position - 1] = token
+  end
+
 end
