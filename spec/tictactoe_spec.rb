@@ -29,6 +29,9 @@ describe TicTacToe do
   def create_game(io:, board: Board.new(layout: [*1..9].map(&:to_s)))
     TicTacToe.new(io: io, board: board)
   end
+  def board_output_with(token:, position:)
+    blank_board_output.sub(position.to_s, token)
+  end
   context 'when a new game is started' do
     it 'the first token will be "X"' do
       io = FakeIO.new
