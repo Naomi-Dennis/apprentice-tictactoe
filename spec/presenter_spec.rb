@@ -62,4 +62,9 @@ describe Presenter do
     expect(output).to include(/Player.*Turn/i)
   end
 
+  it 'tells the user the game is over' do
+    presenter = Presenter.new(io: FakeIO.new)
+    output = presenter.show_game_over
+    expect(output).to include(/game over/i)
+  end 
 end

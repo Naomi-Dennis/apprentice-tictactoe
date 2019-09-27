@@ -33,6 +33,10 @@ class Presenter
     io.puts "---------- Player #{player} Turn ----------"
   end
 
+  def show_game_over
+    io.puts '--------- Game Over --------'
+  end
+
   private
 
   attr_accessor :io
