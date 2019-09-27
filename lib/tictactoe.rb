@@ -10,8 +10,10 @@ class TicTacToe
     @validator = move_validator
   end
 
-  def game_over?(tokens:)
-    @board.is_full(tokens: tokens)
+  def game_over?
+    game_is_over = @board.is_full(tokens: tokens)
+    presenter.show_game_over if game_is_over
+    game_is_over
   end
 
   def render_board
