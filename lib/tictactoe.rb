@@ -30,6 +30,8 @@ class TicTacToe
     desired_position = prompt_user_for_input
     input_is_valid = validate(user_input: desired_position, board: @board)
     place_token(desired_position) if input_is_valid
+
+  def setup
     render_board
   end
 

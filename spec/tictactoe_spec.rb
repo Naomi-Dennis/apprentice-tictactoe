@@ -38,6 +38,15 @@ describe TicTacToe do
     blank_board_output.sub(position.to_s, token)
   end
 
+  context 'before the game begins' do
+    it 'shows the initial layout of the board' do
+      io = FakeIO.new
+      game = create_game(io: io)
+      game.setup
+      expect(io.current_output).to include blank_board_output
+    end
+  end
+
   context 'when a new game is started' do
     it 'the first token will be "X"' do
       io = FakeIO.new
