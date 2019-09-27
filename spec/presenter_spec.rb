@@ -55,4 +55,11 @@ describe Presenter do
       expect(presenter.show_board(board: board)).to eql board_output
     end
   end
+
+  it 'shows whose turn it is' do
+    presenter = Presenter.new(io: FakeIO.new)
+    output = presenter.show_player_turn(player: 'X')
+    expect(output).to include(/Player.*Turn/i)
+  end
+
 end

@@ -29,6 +29,10 @@ class Presenter
     BOARD_RENDER
   end
 
+  def show_player_turn(player:)
+    io.puts "---------- Player #{player} Turn ----------"
+  end
+
   private
 
   attr_accessor :io
