@@ -19,4 +19,18 @@ class Presenter
     io.puts 'That position is taken!'
   end
 
+  def show_board(board:)
+    <<~BOARD_RENDER
+      #{board.at(position: 1)}|#{board.at(position: 2)}|#{board.at(position: 3)}
+      ------
+      #{board.at(position: 4)}|#{board.at(position: 5)}|#{board.at(position: 6)}
+      ------
+      #{board.at(position: 7)}|#{board.at(position: 8)}|#{board.at(position: 9)}
+    BOARD_RENDER
+  end
+
+  private
+
+  attr_accessor :io
 end
+
