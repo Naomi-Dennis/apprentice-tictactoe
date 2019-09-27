@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MainIO
   def initialize(stdin:, stdout:)
     @stdin = stdin
