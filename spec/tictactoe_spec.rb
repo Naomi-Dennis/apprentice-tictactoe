@@ -4,6 +4,7 @@ require 'spec_helper'
 require 'tictactoe'
 require 'board'
 require 'presenter'
+require 'move_validator'
 
 class FakeIO
   attr_accessor :stdin, :stdout
@@ -31,7 +32,9 @@ describe TicTacToe do
   let(:blank_board_output) { "1|2|3\n------\n4|5|6\n------\n7|8|9\n" }
 
   def create_game(io:, board: Board.new(layout: [*1..9].map(&:to_s)))
-    TicTacToe.new(io: io, board: board, presenter: Presenter.new(io: io))
+    view = Presenter.new(io: io)
+    validator = MoveValidator
+    TicTacToe.new(io: io, board: board, presenter: view, move_validator: validator)
   end
 
   def board_output_with(token:, position:)
@@ -125,7 +128,7 @@ describe TicTacToe do
         game = create_game(io: io)
 
         game.begin_player_turn
-        expect(io.current_output).not_to include(/X/)
+        expect(io.current_output).not_to include(/\|X\|?/, /\|?X\|/)
       end
 
       it "not end the player's turn until a valid input is entered" do
