@@ -38,3 +38,49 @@ class FakeIO
   end
 end
 
+describe MoveValidator do
+  let(:view) { Presenter.new(io: FakeIO.new) }
+
+  context 'when the given position is outside the confines of the board' do
+    it 'returns false' do
+      view = Presenter.new(io: FakeIO.new)
+      board = FakeBoard.new
+      validity = MoveValidator.check(position: 10, board: board, view: view)
+      expect(validity).to be_falsey
+    end
+
+    it 'outputs invalid position' do
+      io = FakeIO.new
+      view = Presenter.new(io: io)
+      board = FakeBoard.new
+      MoveValidator.check(position: 10, board: board, view: view)
+      expect(io.current_output).to include(/invalid position/i)
+    end
+  end
+
+  context 'when the given position is within the confines of the board' do
+    context 'when the position is not taken' do
+      it 'returns true' do
+        board = FakeBoard.new
+        validity = MoveValidator.check(position: 2, board: board, view: view)
+        expect(validity).to be_truthy
+      end
+    end
+
+    context 'when the position is taken' do
+      it 'returns false' do
+        board = FakeBoard.new(occupied_position: 2)
+        validity = MoveValidator.check(position: 2, board: board, view: view)
+        expect(validity).to be_falsey
+      end
+
+      it 'outputs position taken' do
+        io = FakeIO.new
+        view = Presenter.new(io: io)
+        board = FakeBoard.new(occupied_position: 2)
+        MoveValidator.check(position: 2, board: board, view: view)
+        expect(io.current_output).to include(/position.*taken/i)
+      end
+    end
+  end
+end
