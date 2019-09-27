@@ -3,6 +3,8 @@
 require 'spec_helper'
 require 'tictactoe'
 require 'board'
+require 'presenter'
+
 class FakeIO
   attr_accessor :stdin, :stdout
   def initialize(stdin: '', stdout: [])
@@ -29,7 +31,7 @@ describe TicTacToe do
   let(:blank_board_output) { "1|2|3\n------\n4|5|6\n------\n7|8|9\n" }
 
   def create_game(io:, board: Board.new(layout: [*1..9].map(&:to_s)))
-    TicTacToe.new(io: io, board: board)
+    TicTacToe.new(io: io, board: board, presenter: Presenter.new(io: io))
   end
 
   def board_output_with(token:, position:)
