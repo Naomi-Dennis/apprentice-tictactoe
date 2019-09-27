@@ -9,7 +9,7 @@ describe Board do
   it 'determine what is in a space' do
     board = Board.new(layout: three_by_three)
     test_position = 1
-    empty_space = three_by_three[test_position - 1 ]
+    empty_space = three_by_three[test_position - 1]
     expect(board.at(position: test_position)).to eql empty_space
   end
 
@@ -41,5 +41,4 @@ describe Board do
       expect(result).to be_falsey
     end
   end
-
 end
