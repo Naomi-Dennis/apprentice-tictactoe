@@ -1,16 +1,24 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'presenter'
 require 'board'
 
 class FakeIO
+  attr_accessor :stdout
+
   def initialize(stdout: [])
     @stdout = stdout
   end
 
-  def self.puts(*output)
+  def puts(*output)
     @stdout << output.join("\n")
     @stdout
   end
+
+  def current_output
+    @stdout
+  end 
 end
 
 describe Presenter do
