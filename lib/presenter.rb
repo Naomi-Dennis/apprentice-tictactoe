@@ -7,4 +7,8 @@ class Presenter
     io.puts 'Select a position to place your token [1 - 9]:'
   end
 
+  def prompt_select_another_position
+    io.puts 'Select another position to place your token [1 - 9]:'
+  end
+
 end

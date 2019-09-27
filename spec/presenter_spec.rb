@@ -20,4 +20,10 @@ describe Presenter do
     expect(output).to include(/select.*position/i)
   end
 
+  it 'prompts the player to select another position' do
+    presenter = Presenter.new(io: FakeIO.new)
+    output = presenter.prompt_select_another_position
+    expect(output).to include(/select another.*position/i)
+  end
+
 end
