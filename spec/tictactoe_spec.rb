@@ -156,5 +156,13 @@ describe TicTacToe do
       end
     end
 
+    context 'when a player turn begins' do
+      it 'outputs their token in format Player [token] turn' do
+        io = FakeIO.new
+        game = create_game(io: io)
+        game.begin_player_turn
+        expect(io.current_output).to include(/Player X Turn/i)
+      end
+    end
   end
 end
