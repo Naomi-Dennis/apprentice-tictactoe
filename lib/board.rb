@@ -31,6 +31,6 @@ class Board
   end
 
   def occupied_at(position:)
-    (@layout.none? { |space| space == position.to_s})
+    (@layout.none? { |space| space == position.to_s })
   end
 end
