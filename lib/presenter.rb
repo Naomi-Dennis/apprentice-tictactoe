@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Presenter
   def initialize(io:)
     @io = io
@@ -41,4 +43,3 @@ class Presenter
 
   attr_accessor :io
 end
-
