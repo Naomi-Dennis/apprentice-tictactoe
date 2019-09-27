@@ -32,4 +32,10 @@ describe Presenter do
     expect(output).to include(/invalid position/i)
   end
 
+  it 'prompts the player their chosen position is taken' do
+    presenter = Presenter.new(io: FakeIO.new)
+    output = presenter.tell_position_taken
+    expect(output).to include(/position.*taken/i)
+  end
+
 end

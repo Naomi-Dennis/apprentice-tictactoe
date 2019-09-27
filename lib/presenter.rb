@@ -15,4 +15,8 @@ class Presenter
     io.puts 'Invalid position!'
   end
 
+  def tell_position_taken
+    io.puts 'That position is taken!'
+  end
+
 end
