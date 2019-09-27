@@ -21,3 +21,11 @@ class FakeLogic
   def setup; end
 end
 
+describe Game do
+  it 'loops through game logic until the game is over' do
+    game_loops = [false, false, false, false, false, true]
+    game = FakeLogic.new(game_over_loops: game_loops)
+    Game.play(game_logic: game)
+    expect(game.game_over_called).to be 6
+  end
+end
