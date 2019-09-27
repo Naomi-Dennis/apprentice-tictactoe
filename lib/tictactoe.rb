@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 class TicTacToe
-  def initialize(io:, board:, presenter:)
+  def initialize(io:, board:, presenter:, move_validator:)
     @board = board
-    @current_token = 'X'
+    @tokens = %w[X O]
+    @current_token = tokens[0]
     @io = io
     @presenter = presenter
+    @validator = move_validator
   end
 
   def game_over?(tokens:)
