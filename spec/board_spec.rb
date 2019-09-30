@@ -5,7 +5,7 @@ require 'board'
 
 describe Board do
   let(:three_by_three) { [*1..9].map(&:to_s) }
-  
+
   context 'when retrieving a token in a space' do
     context 'when the given position is within the confines of the board' do
       it "returns what's in the space" do
@@ -81,7 +81,7 @@ describe Board do
     end
   end
 
-  
+
   describe '#at' do
     it 'determine what is in a space' do
       board = Board.new(layout: three_by_three)

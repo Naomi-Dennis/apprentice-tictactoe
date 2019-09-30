@@ -31,4 +31,21 @@ class Board
     token_in_space = ->(space) { space === position.to_s }
     has(position: position) && @layout.none?(&token_in_space)
   end
+
+  def found_winner_at(winning_combination:, token:)
+    winner_found = single_token_at_positions?(positions: winning_combination)
+    winner_is_token = @layout[winning_combination[0]] == token
+
+    winner_found && winner_is_token
+  end
+
+  private
+
+  def single_token_at_positions?(positions:)
+    test_positions = [
+      @layout[positions[0]], @layout[positions[1]], @layout[positions[2]]
+    ]
+    is_single_token_at_positions = test_positions.uniq.length == 1
+    is_single_token_at_positions
+  end
 end
