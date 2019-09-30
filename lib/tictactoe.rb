@@ -28,8 +28,22 @@ class TicTacToe
 
   attr_accessor :board, :current_token, :tokens
 
-  def prompt_user_for_input(presenter:, user_input:)
-    presenter.show_player_turn(player: current_token)
+  def winning_combinations
+    [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+
+      [0, 4, 7],
+      [2, 4, 6]
+    ]
+  end
+
+  def prompt_user_for_input
     presenter.prompt_select_position
     desired_position = user_input.input_position
     desired_position
