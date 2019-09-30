@@ -1,52 +1,50 @@
 # frozen_string_literal: true
 
 class TicTacToe
-  def initialize(io:)
-    @board = Array.new(9, ' ')
+  def initialize(io:, board:, presenter:)
+    @board = board
     @current_token = 'X'
     @io = io
+    @presenter = presenter
+  end
+
+  def game_over?(tokens:)
+    @board.is_full(tokens: tokens)
   end
 
   def render_board
-    board_output = <<~BOARD_RENDER 
-    #{@board[0]}|#{@board[1]}|#{@board[2]}
-    ------
-    #{@board[3]}|#{@board[4]}|#{@board[5]}
-    ------
-    #{@board[6]}|#{@board[7]}|#{@board[8]}
-    BOARD_RENDER
+    board_output = presenter.show_board(board: @board)
     io.puts board_output
-    board
   end
 
   def place_token(position)
-    board[position] = current_token
+    board.put(token: current_token, position: position)
     switch_turn
-    render_board
   end
 
   def begin_player_turn
-    select_another_position_prompt = 'Select another position to place your token [1 - 9]: '
-    desired_position = io.gets.to_i
-    io.puts 'Select a position to place your token [1 - 9]: '
-
-    list_of_accepted_inputs = [*1..9]
-    if !list_of_accepted_inputs.include? desired_position
-      io.puts 'Invalid position'
-      io.puts select_another_position_prompt
-      render_board
-    elsif board[desired_position] == ' '
-      place_token(desired_position)
-    else
-      io.puts 'That position is taken!'
-      io.puts select_another_position_prompt
-      render_board
-    end
+    desired_position = prompt_user_for_input
+    input_is_valid = validate(user_input: desired_position, board: @board)
+    place_token(desired_position) if input_is_valid
+    render_board
   end
 
   private
 
-  attr_accessor :board, :current_token, :io
+  attr_accessor :board, :current_token, :io, :presenter
+
+  def prompt_user_for_input
+    presenter.prompt_select_position
+    desired_position = io.gets.to_i
+    desired_position
+  end
+
+  def validate(user_input:, board:)
+    presenter.tell_position_invalid unless board.has(position: user_input)
+    presenter.tell_position_taken if board.occupied_at(position: user_input)
+    presenter.prompt_select_another_position
+    board.has(position: user_input) && !board.occupied_at(position: user_input)
+  end
 
   def switch_turn
     if @current_token == 'X'
