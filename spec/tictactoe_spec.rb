@@ -100,4 +100,98 @@ describe TicTacToe do
       end
     end
   end
+
+  context 'when a single token occupies a winning position' do
+    context 'when X is the winning token' do
+      it 'outputs Player X wins' do
+        x_wins = %w[X X X 3 4 5 6 7 8]
+        io = FakeIO.new
+        game = create_game(io: io, board: Board.new(layout: x_wins))
+        game.game_over?(tokens: %w[X O])
+        expect(io.current_output).to include(/Player X Wins/i)
+      end
+    end
+
+    context 'when O is the winning token' do
+      it 'outputs Player O wins' do
+        o_wins = %w[0 1 2 3 4 5 O O O]
+        io = FakeIO.new
+        game = create_game(io: io, board: Board.new(layout: o_wins))
+        game.game_over?(tokens: %w[X O])
+        expect(io.current_output).to include(/Player O Wins/i)
+      end
+    end
+  end
+
+  context 'when a single token occupies winning position 0 1 2' do
+    it 'the game is over' do
+      x_wins = %w[X X X 3 4 5 6 7 8]
+      game = create_game(io: FakeIO.new, board: Board.new(layout: x_wins))
+      game_over = game.game_over?(tokens: ['X'])
+      expect(game_over).to be_truthy
+    end
+  end
+
+  context 'when a single token occupies winning position 3 4 5' do
+    it 'the game is over' do
+      x_wins = %w[0 1 2 X X X 6 7 8]
+      game = create_game(io: FakeIO.new, board: Board.new(layout: x_wins))
+      game_over = game.game_over?(tokens: ['X'])
+      expect(game_over).to be_truthy
+    end
+  end
+
+  context 'when a single token occupies winning position 6 7 8' do
+    it 'the game is over' do
+      x_wins = %w[0 1 2 3 4 5 X X X]
+      game = create_game(io: FakeIO.new, board: Board.new(layout: x_wins))
+      game_over = game.game_over?(tokens: ['X'])
+      expect(game_over).to be_truthy
+    end
+  end
+
+  context 'when a single token occupies winning position 0 3 6' do
+    it 'the game is over' do
+      x_wins = %w[X 1 2 X 4 5 X 7 8]
+      game = create_game(io: FakeIO.new, board: Board.new(layout: x_wins))
+      game_over = game.game_over?(tokens: ['X'])
+      expect(game_over).to be_truthy
+    end
+  end
+
+  context 'when a single token occupies winning position 1 4 7' do
+    it 'the game is over' do
+      x_wins = %w[0 X 2 3 X 5 6 X 8]
+      game = create_game(io: FakeIO.new, board: Board.new(layout: x_wins))
+      game_over = game.game_over?(tokens: ['X'])
+      expect(game_over).to be_truthy
+    end
+  end
+
+  context 'when a single token occupies winning position 2 5 8' do
+    it 'the game is over' do
+      x_wins = %w[0 1 X 3 4 X 6 7 X]
+      game = create_game(io: FakeIO.new, board: Board.new(layout: x_wins))
+      game_over = game.game_over?(tokens: ['X'])
+      expect(game_over).to be_truthy
+    end
+  end
+
+  context 'when a single token occupies winning position 0 4 7' do
+    it 'the game is over' do
+      x_wins = %w[X 1 2 3 X 5 6 X 8]
+      game = create_game(io: FakeIO.new, board: Board.new(layout: x_wins))
+      game_over = game.game_over?(tokens: ['X'])
+      expect(game_over).to be_truthy
+    end
+  end
+
+  context 'when a single token occupies winning position 2 4 6' do
+    it 'the game is over' do
+      x_wins = %w[0 1 X 3 X 5 X 7 8]
+      game = create_game(io: FakeIO.new, board: Board.new(layout: x_wins))
+      game_over = game.game_over?(tokens: ['X'])
+      expect(game_over).to be_truthy
+    end
+  end
 end
