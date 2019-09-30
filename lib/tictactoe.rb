@@ -7,14 +7,12 @@ class TicTacToe
   end
 
   def game_over?(presenter:, board:)
-    board_is_full = board.is_full(tokens: tokens)
-    winner = tokens.find { |token| is_winner?(board:board, player: token) }
-    winner_found = !winner.nil?
-    board_is_full || winner_found
+    game_is_over = board.is_full(tokens: tokens)
+    presenter.show_game_over if game_is_over
+    game_is_over
   end
 
-  def place_token(position:, board:)
-
+  def place_token_at(position:, board:)
     board.put(token: current_token, position: position)
     switch_turn
   end
@@ -22,7 +20,7 @@ class TicTacToe
   def begin_player_turn(board:, presenter:, user_input:)
     position = prompt_user_for_input(user_input: user_input, presenter: presenter)
     input_is_valid = user_input.check(position: position, board: board, view: presenter)
-    place_token(position: position, board: board) if input_is_valid
+    place_token_at(position: position, board: board) if input_is_valid
     presenter.prompt_select_another_position unless input_is_valid
   end
 
@@ -30,30 +28,8 @@ class TicTacToe
 
   attr_accessor :board, :current_token, :tokens
 
-  def winning_combinations
-    [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-
-      [0, 4, 7],
-      [2, 4, 6]
-    ]
-  end
-
-  def is_winner?(board:, player:)
-    occupied_by_player = lambda do |combo|
-   
-      board.found_winner_at(winning_combination: combo, token: player)
-    end
-    winning_combinations.any?(&occupied_by_player)
-  end
-
   def prompt_user_for_input(presenter:, user_input:)
+    presenter.show_player_turn(player: current_token)
     presenter.prompt_select_position
     desired_position = user_input.input_position
     desired_position
