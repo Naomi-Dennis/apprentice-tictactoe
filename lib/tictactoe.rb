@@ -24,10 +24,6 @@ class TicTacToe
     presenter.prompt_select_another_position unless input_is_valid
   end
 
-  def setup
-    render_board
-  end
-
   private
 
   attr_accessor :board, :current_token, :tokens
