@@ -3,23 +3,8 @@
 require 'spec_helper'
 require 'presenter'
 require 'board'
+require 'fake_io'
 
-class FakeIO
-  attr_accessor :stdout
-
-  def initialize(stdout: [])
-    @stdout = stdout
-  end
-
-  def puts(*output)
-    @stdout << output.join("\n")
-    @stdout
-  end
-
-  def current_output
-    @stdout
-  end 
-end
 
 describe Presenter do
   it 'prompts the player to select a position' do
@@ -47,7 +32,7 @@ describe Presenter do
   end
 
   context 'when the board is shown' do
-    let(:board_output) do
+    let(:board_output_data) do
       <<~BOARD_RENDER
         1|2|3
         ------
@@ -60,6 +45,7 @@ describe Presenter do
     it 'returns the content of each cell in a grid format' do
       presenter = Presenter.new(io: FakeIO.new)
       board = Board.new(layout: [*1..9].map!(&:to_s))
+      board_output = FakeIO.new.output_to_screen board_output_data
       expect(presenter.show_board(board: board)).to eql board_output
     end
   end
@@ -74,5 +60,5 @@ describe Presenter do
     presenter = Presenter.new(io: FakeIO.new)
     output = presenter.show_game_over
     expect(output).to include(/game over/i)
-  end 
+  end
 end
