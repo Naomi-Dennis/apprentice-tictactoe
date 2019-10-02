@@ -6,8 +6,8 @@ class TicTacToe
     @current_token = tokens[0]
   end
 
-  def game_over?
-    game_is_over = @board.is_full(tokens: tokens)
+  def game_over?(presenter:, board:)
+    game_is_over = board.is_full(tokens: tokens)
     presenter.show_game_over if game_is_over
     game_is_over
   end
