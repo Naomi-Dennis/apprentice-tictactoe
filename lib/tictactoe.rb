@@ -12,7 +12,7 @@ class TicTacToe
     game_is_over
   end
 
-  def place_token(position)
+  def place_token_at(position:, board:)
     board.put(token: current_token, position: position)
     switch_turn
   end
