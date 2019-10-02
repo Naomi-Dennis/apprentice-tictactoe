@@ -7,6 +7,8 @@ require 'presenter'
 require 'move_validator'
 require 'fake_io'
 
+class FakePresenter
+  def show_game_over; end
 end
 
 describe TicTacToe do
