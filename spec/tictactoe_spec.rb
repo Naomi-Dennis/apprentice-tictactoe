@@ -24,6 +24,10 @@ describe TicTacToe do
     blank_board_output.sub(position.to_s, token)
   end
 
+  def simulate_player_turn(board: default_board, game:, io:)
+    controller = Controller.new(io: io)
+    presenter = Presenter.new(io: io)
+    game.begin_player_turn(board: board, controller: controller, presenter: presenter)
   end
 
   context 'when a new game is started' do
