@@ -17,10 +17,10 @@ class TicTacToe
     switch_turn
   end
 
-  def begin_player_turn
-    position = prompt_user_for_input
-    input_is_valid = validator.check(position: position, board: @board, view: @presenter)
-    place_token(position) if input_is_valid
+  def begin_player_turn(board:, presenter:, controller:)
+    position = prompt_user_for_input(controller: controller, presenter: presenter)
+    input_is_valid = controller.check(position: position, board: board, view: presenter)
+    place_token_at(position: position, board: board) if input_is_valid
     presenter.prompt_select_another_position unless input_is_valid
   end
 
