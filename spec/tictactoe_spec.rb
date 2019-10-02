@@ -56,9 +56,9 @@ describe TicTacToe do
   context 'when the user interacts with the board' do
     let(:test_position) { '4' }
 
-    def simulate_turn_with_input(game:, io:, input:)
-      io.stdin = input
-      game.begin_player_turn
+    def simulate_turn_with_input(board: default_boad, game:, io:, input:)
+      io.input_stream = input
+      simulate_player_turn(board: board, game: game, io: io)
     end
 
     context 'when the user tries to place a token in a free space' do
