@@ -28,13 +28,6 @@ describe TicTacToe do
     blank_board_output.sub(position.to_s, token)
   end
 
-  context 'before the game begins' do
-    it 'shows the initial layout of the board' do
-      io = FakeIO.new
-      game = create_game(io: io)
-      game.setup
-      expect(io.current_output).to include blank_board_output
-    end
   end
 
   context 'when a new game is started' do
@@ -67,13 +60,6 @@ describe TicTacToe do
     end
 
     context 'when the user tries to place a token in a free space' do
-      it 'prompt the user to select a space' do
-        io = FakeIO.new(stdin: test_position)
-        game = create_game(io: io)
-        simulate_turn_with_input(game: game, io: io, input: test_position)
-        expect(io.current_output).to include(/select.*position/i)
-      end
-
       it 'adds their token to the board' do
         io = FakeIO.new(stdin: test_position)
         game = create_game(io: io)
@@ -84,31 +70,12 @@ describe TicTacToe do
     end
 
     context 'when the user tries to place a token in an occupied space' do
-      it "prompt the user that it's taken" do
-        io = FakeIO.new(stdin: test_position)
-        game = create_game(io: io)
-        game.begin_player_turn
-        expect(io.current_output).to include(/select.*position/i)
-      end
-      it 'prompt the user to choose another position' do
-        io = FakeIO.new(stdin: test_position)
-        game = create_game(io: io)
-        game.begin_player_turn
-        simulate_turn_with_input(game: game, io: io, input: test_position)
-        expect(io.current_output).to include(/position.*taken/i)
       end
     end
 
     context 'when the input is outside of the specified range' do
       let(:bad_input) { '-1' }
 
-      it 'prompt the user to choose another position' do
-        io = FakeIO.new(stdin: bad_input)
-        game = create_game(io: io)
-        game.begin_player_turn
-        expect(io.current_output).to include(/invalid position/i,
-                                             /select another position/i)
-      end
 
       it 'do not place the token on the board' do
         io = FakeIO.new(stdin: bad_input)
@@ -143,15 +110,6 @@ describe TicTacToe do
         game = create_game(io: FakeIO.new, board: board)
         game_is_over = game.game_over?
         expect(game_is_over).to be_truthy
-      end
-    end
-
-    context 'when a player turn begins' do
-      it 'outputs their token in format Player [token] turn' do
-        io = FakeIO.new
-        game = create_game(io: io)
-        game.begin_player_turn
-        expect(io.current_output).to include(/Player X Turn/i)
       end
     end
   end
