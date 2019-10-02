@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'tictactoe'
 require 'board'
 require 'presenter'
-require 'move_validator'
+require 'controller' 
 require 'fake_io'
 
 class FakePresenter
