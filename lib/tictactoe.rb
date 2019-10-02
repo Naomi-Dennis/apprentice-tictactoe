@@ -12,11 +12,6 @@ class TicTacToe
     game_is_over
   end
 
-  def render_board
-    board_output = presenter.show_board(board: @board)
-    io.puts board_output
-  end
-
   def place_token(position)
     board.put(token: current_token, position: position)
     switch_turn
@@ -27,7 +22,6 @@ class TicTacToe
     input_is_valid = validator.check(position: position, board: @board, view: @presenter)
     place_token(position) if input_is_valid
     presenter.prompt_select_another_position unless input_is_valid
-    render_board
   end
 
   def setup
