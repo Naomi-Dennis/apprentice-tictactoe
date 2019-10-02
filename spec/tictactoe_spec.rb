@@ -35,21 +35,10 @@ describe TicTacToe do
   context 'when a new game is started' do
     it 'the first token will be "X"' do
       io = FakeIO.new
-      game = create_game(io: io)
-      game.place_token(1)
-      game.render_board
-      expect(io.current_output).to include(/X/)
-    end
-  end
-
-  context 'when a token is placed on an empty board' do
-    it 'render the board in a 3x3 after a token is placed' do
-      io = FakeIO.new
-      game = create_game(io: io)
-      game.place_token(3)
-      game.render_board
-      expected_board_output = board_output_with(token: 'X', position: 3)
-      expect(io.current_output).to include expected_board_output
+      game = create_game
+      board = default_board
+      game.place_token_at(board: board, position: 1)
+      expect(board.at(position: 1)).to eql 'X'
     end
   end
 
@@ -63,46 +52,42 @@ describe TicTacToe do
 
     context 'when the user tries to place a token in a free space' do
       it 'adds their token to the board' do
-        io = FakeIO.new(stdin: test_position)
-        game = create_game(io: io)
-        game.begin_player_turn
-        board_with_token = board_output_with(token: 'X', position: test_position)
-        expect(io.current_output).to include board_with_token
-      end
-    end
-
-    context 'when the user tries to place a token in an occupied space' do
+        io = FakeIO.new(input_stream: test_position)
+        game = create_game
+        board = default_board
+        simulate_player_turn(board: board, game: game, io: io)
+        expect(board.at(position: test_position.to_i)).to eql 'X'
       end
     end
 
     context 'when the input is outside of the specified range' do
       let(:bad_input) { '-1' }
 
-
-      it 'do not place the token on the board' do
-        io = FakeIO.new(stdin: bad_input)
-        game = create_game(io: io)
-
-        game.begin_player_turn
-        expect(io.current_output).not_to include(/\|X\|?/, /\|?X\|/)
+      it 'does not place the token on the board' do
+        io = FakeIO.new(input_stream: bad_input)
+        simulate_player_turn(game: create_game, io: io)
+        board = default_board
+        all_board_positions = ->(position) { board.at(position: position) }
+        current_board_tokens = [*1..9].collect(&all_board_positions)
+        expect(current_board_tokens).not_to include('X')
       end
 
       it "not end the player's turn until a valid input is entered" do
-        io = FakeIO.new(stdin: bad_input)
-        game = create_game(io: io)
-
-        simulate_turn_with_input(game: game, io: io, input: '5')
-        expect(io.current_output).not_to include(/O/)
+        io = FakeIO.new(input_stream: bad_input)
+        game = create_game
+        board = default_board
+        simulate_turn_with_input(board: board, game: game, io: io, input: '5')
+        expect(board.at(position: 5)).to be 'X'
       end
     end
 
     context "when the player's turn ends" do
       it 're-render the board' do
-        io = FakeIO.new(stdin: '1')
-        game = create_game(io: io)
-        game.begin_player_turn
-        expected_board = board_output_with(token: 'X', position: '1')
-        expect(io.current_output).to include expected_board
+        io = FakeIO.new(input_stream: '1')
+        game = create_game
+        board = default_board
+        simulate_player_turn(board: board, game: game, io: io)
+        expect(board.at(position: 1)).to eql 'X'
       end
     end
 
