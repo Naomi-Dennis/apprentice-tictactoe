@@ -14,14 +14,6 @@ class Board
     @layout[position - 1]
   end
 
-  def spaces_at(row:)
-    number_of_columns_in_row = Math.sqrt(@layout.length)
-    starting_index = number_of_columns_in_row * (row - 1)
-    ending_index = starting_index + (number_of_columns_in_row - 1)
-    requested_row = @layout[starting_index..ending_index]
-    requested_row
-  end
-
   def put(token:, position:)
     @layout[position - 1] = token
   end
