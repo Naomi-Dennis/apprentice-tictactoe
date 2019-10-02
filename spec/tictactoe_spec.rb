@@ -94,8 +94,8 @@ describe TicTacToe do
     context 'when the board is full' do
       it 'outputs game over' do
         board = Board.new(layout: %w[X O X O O X X X O])
-        game = create_game(io: FakeIO.new, board: board)
-        game_is_over = game.game_over?
+        game = create_game
+        game_is_over = game.game_over?(presenter: FakePresenter.new, board: board)
         expect(game_is_over).to be_truthy
       end
     end
