@@ -5,27 +5,8 @@ require 'tictactoe'
 require 'board'
 require 'presenter'
 require 'move_validator'
+require 'fake_io'
 
-class FakeIO
-  attr_accessor :stdin, :stdout
-  def initialize(stdin: '', stdout: [])
-    @stdin = stdin
-    @stdout = stdout
-  end
-
-  def puts(string)
-    @stdout << string
-  end
-
-  def gets
-    string_to_return = @stdin
-    @stdin = ''
-    string_to_return
-  end
-
-  def current_output
-    @stdout
-  end
 end
 
 describe TicTacToe do
