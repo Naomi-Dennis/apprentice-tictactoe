@@ -11,11 +11,16 @@ class Board
   end
 
   def at(position:)
-    @layout[position - 1]
+    has(position: position) ? @layout[position - 1] : nil
   end
 
   def put(token:, position:)
-    @layout[position - 1] = token
+    if has(position: position)
+      @layout[position - 1] = token
+      return token
+    end
+
+    nil
   end
 
   def has(position:)
@@ -23,6 +28,7 @@ class Board
   end
 
   def occupied_at(position:)
-    (@layout.none? { |space| space == position.to_s })
+    token_in_space = ->(space) { space === position.to_s }
+    has(position: position) && @layout.none?(&token_in_space)
   end
 end
