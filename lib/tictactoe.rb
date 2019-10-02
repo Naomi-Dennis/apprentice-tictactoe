@@ -28,10 +28,10 @@ class TicTacToe
 
   attr_accessor :board, :current_token, :tokens
 
-  def prompt_user_for_input
+  def prompt_user_for_input(presenter:, controller:)
     presenter.show_player_turn(player: current_token)
     presenter.prompt_select_position
-    desired_position = io.gets.to_i
+    desired_position = controller.input_position
     desired_position
   end
 
