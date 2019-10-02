@@ -16,6 +16,9 @@ describe TicTacToe do
     view = Presenter.new(io: io)
     validator = MoveValidator
     TicTacToe.new(io: io, board: board, presenter: view, move_validator: validator)
+
+  def create_game
+    TicTacToe.new
   end
 
   def board_output_with(token:, position:)
