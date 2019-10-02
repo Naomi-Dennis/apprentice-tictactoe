@@ -1,4 +1,4 @@
-class Controller
+class UserInput
   def initialize(io:)
     @io = io
   end

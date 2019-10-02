@@ -17,9 +17,9 @@ class TicTacToe
     switch_turn
   end
 
-  def begin_player_turn(board:, presenter:, controller:)
-    position = prompt_user_for_input(controller: controller, presenter: presenter)
-    input_is_valid = controller.check(position: position, board: board, view: presenter)
+  def begin_player_turn(board:, presenter:, user_input:)
+    position = prompt_user_for_input(user_input: user_input, presenter: presenter)
+    input_is_valid = user_input.check(position: position, board: board, view: presenter)
     place_token_at(position: position, board: board) if input_is_valid
     presenter.prompt_select_another_position unless input_is_valid
   end
@@ -28,10 +28,10 @@ class TicTacToe
 
   attr_accessor :board, :current_token, :tokens
 
-  def prompt_user_for_input(presenter:, controller:)
+  def prompt_user_for_input(presenter:, user_input:)
     presenter.show_player_turn(player: current_token)
     presenter.prompt_select_position
-    desired_position = controller.input_position
+    desired_position = user_input.input_position
     desired_position
   end
 

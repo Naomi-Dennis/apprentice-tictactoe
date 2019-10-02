@@ -5,14 +5,14 @@ require_relative '../lib/main_io'
 require_relative '../lib/board'
 require_relative '../lib/presenter'
 require_relative '../lib/game'
-require_relative '../lib/controller'
+require_relative '../lib/user_input'
 
 
 io = MainIO.new(input_stream: $stdin, output_stream: $stdout)
 
 game_setup = {
   logic: TicTacToe.new,
-  controller: Controller.new(io: io),
+  user_input: UserInput.new(io: io),
   presenter: Presenter.new(io: io),
   board: Board.new(layout: [*1..9].map!(&:to_s))
 }

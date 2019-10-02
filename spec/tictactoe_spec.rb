@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'tictactoe'
 require 'board'
 require 'presenter'
-require 'controller' 
+require 'user_input' 
 require 'fake_io'
 
 class FakePresenter
@@ -27,9 +27,9 @@ describe TicTacToe do
   end
 
   def simulate_player_turn(board: default_board, game:, io:)
-    controller = Controller.new(io: io)
+    user_input = UserInput.new(io: io)
     presenter = Presenter.new(io: io)
-    game.begin_player_turn(board: board, controller: controller, presenter: presenter)
+    game.begin_player_turn(board: board, user_input: user_input, presenter: presenter)
   end
 
   context 'when a new game is started' do

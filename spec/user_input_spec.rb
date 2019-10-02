@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'controller'
+require 'user_input'
 require 'presenter'
 require 'fake_io'
 
@@ -24,13 +24,13 @@ class FakeBoard
   attr_accessor :layout
 end
 
-describe Controller do
+describe UserInput do
   let(:view) { Presenter.new(io: FakeIO.new) }
 
   context 'when the user enters input' do
     context 'when the input is an integer represented as a string' do
       it 'returns an integer' do
-        controller = Controller.new(io: FakeIO.new(input_stream: '1'))
+        controller = UserInput.new(io: FakeIO.new(input_stream: '1'))
         expect(controller.input_position).to be_kind_of Numeric
       end
     end
@@ -38,7 +38,7 @@ describe Controller do
     context 'when the input is an integer, mixed with non-integers, represented as string' do
       it 'returns -1' do
         test_input = '6+sdjkwladj(%*#&@(!*$)$--'
-        controller = Controller.new(io: FakeIO.new(input_stream: test_input))
+        controller = UserInput.new(io: FakeIO.new(input_stream: test_input))
         expect(controller.input_position).to be -1
       end
     end
@@ -48,7 +48,7 @@ describe Controller do
     it 'returns false' do
       view = Presenter.new(io: FakeIO.new)
       board = FakeBoard.new
-      controller = Controller.new(io: FakeIO.new(input_stream: '10'))
+      controller = UserInput.new(io: FakeIO.new(input_stream: '10'))
       validity = controller.check(position: controller.input_position, board: board, view: view)
       expect(validity).to be false
     end
@@ -57,7 +57,7 @@ describe Controller do
       io = FakeIO.new(input_stream: '10')
       view = Presenter.new(io: io)
       board = FakeBoard.new
-      controller = Controller.new(io: io)
+      controller = UserInput.new(io: io)
       controller.check(position: controller.input_position, board: board, view: view)
       expect(io.current_output).to include(/invalid position/i)
     end
@@ -65,7 +65,7 @@ describe Controller do
     it 'does not output position taken' do
       io = FakeIO.new(input_stream: 10)
       view = Presenter.new(io: io)
-      controller = Controller.new(io: io)
+      controller = UserInput.new(io: io)
       board = FakeBoard.new(occupied_position: controller.input_position)
       controller.check(position: 10, board: board, view: view)
       expect(io.current_output).not_to include(/position.*taken/i)
@@ -76,7 +76,7 @@ describe Controller do
     context 'when the position is not taken' do
       it 'returns true' do
         board = FakeBoard.new
-        controller = Controller.new(io: FakeIO.new(input_stream: '2'))
+        controller = UserInput.new(io: FakeIO.new(input_stream: '2'))
         validity = controller.check(position: controller.input_position, board: board, view: view)
         expect(validity).to be_truthy
       end
@@ -86,7 +86,7 @@ describe Controller do
       it 'returns false' do
         io = FakeIO.new(input_stream: '2')
         view = Presenter.new(io: io)
-        controller = Controller.new(io: io)
+        controller = UserInput.new(io: io)
         board = FakeBoard.new(occupied_position: controller.input_position)
 
         validity = controller.check(position: controller.input_position, board: board, view: view)
@@ -96,7 +96,7 @@ describe Controller do
       it 'outputs position taken' do
         io = FakeIO.new(input_stream: '2')
         view = Presenter.new(io: io)
-        controller = Controller.new(io: io)
+        controller = UserInput.new(io: io)
         board = FakeBoard.new(occupied_position: controller.input_position)
         controller.check(position: controller.input_position, board: board, view: view)
         expect(io.current_output).to include(/position.*taken/i)
@@ -105,7 +105,7 @@ describe Controller do
       it 'does not output invalid position' do
         io = FakeIO.new(input_stream: '2')
         view = Presenter.new(io: io)
-        controller = Controller.new(io: io)
+        controller = UserInput.new(io: io)
         board = FakeBoard.new(occupied_position: controller.input_position)
         controller.check(position: 2, board: board, view: view)
         expect(io.current_output).not_to include(/invalid position/i)

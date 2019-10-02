@@ -16,7 +16,7 @@ class FakeLogic
     @game_over_loops.shift
   end
 
-  def begin_player_turn(board:, controller:, presenter:); end
+  def begin_player_turn(board:, user_input:, presenter:); end
 
   def setup; end
 end
@@ -32,7 +32,7 @@ describe Game do
   it 'loops through game logic until the game is over' do
     game_loops = [false, false, false, false, false, true]
     game = FakeLogic.new(game_over_loops: game_loops)
-    Game.play(controller: FakeIO.new, board: FakeBoard.new, presenter: FakePresenter.new, logic: game)
+    Game.play(user_input: FakeIO.new, board: FakeBoard.new, presenter: FakePresenter.new, logic: game)
     expect(game.game_over_called).to be 6
   end
 end
