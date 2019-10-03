@@ -10,11 +10,11 @@ require_relative '../lib/user_input'
 
 io = MainIO.new(input_stream: $stdin, output_stream: $stdout)
 
-game_setup = {
+tictactoe = {
   logic: TicTacToe.new,
   user_input: UserInput.new(io: io),
   presenter: Presenter.new(io: io),
   board: Board.new(layout: [*1..9].map!(&:to_s))
 }
 
-Game.play(game_setup)
+Game.new.play(tictactoe)
