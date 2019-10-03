@@ -3,8 +3,8 @@
 require 'spec_helper'
 require 'game'
 require 'fake_io'
-class FakeLogic
   attr_accessor :game_over_called
+class FakeTicTacToe
 
   def initialize(game_over_loops:)
     @game_over_called = 0
