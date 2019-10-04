@@ -47,6 +47,7 @@ class TicTacToe
 
   def is_winner?(board:, player:)
     occupied_by_player = lambda do |combo|
+   
       board.found_winner_at(winning_combination: combo, token: player)
     end
     winning_combinations.any?(&occupied_by_player)
