@@ -17,4 +17,4 @@ tictactoe = {
   board: Board.new(layout: [*1..9].map!(&:to_s))
 }
 
-Game.new.play(tictactoe)
+Game.play(tictactoe)
