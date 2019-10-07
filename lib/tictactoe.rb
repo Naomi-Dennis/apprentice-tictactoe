@@ -7,10 +7,9 @@ class TicTacToe
   end
 
   def game_over?(presenter:, board:)
-    board_is_full = board.is_full(tokens: tokens)
-    winner = tokens.find { |token| is_winner?(board:board, player: token) }
-    winner_found = !winner.nil?
-    board_is_full || winner_found
+    game_is_over = board.is_full(tokens: tokens)
+    presenter.show_game_over if game_is_over
+    game_is_over
   end
 
   def place_token(position:, board:)
