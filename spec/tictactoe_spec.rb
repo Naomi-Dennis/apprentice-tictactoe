@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'tictactoe'
 require 'board'
 require 'presenter'
-require 'user_input' 
+require 'user_input'
 require 'fake_io'
 
 class FakePresenter
@@ -78,25 +78,6 @@ describe TicTacToe do
         board = default_board
         simulate_turn_with_input(board: board, game: game, io: io, input: '5')
         expect(board.at(position: 5)).to be 'X'
-      end
-    end
-
-    context "when the player's turn ends" do
-      it 're-render the board' do
-        io = FakeIO.new(input_stream: '1')
-        game = create_game
-        board = default_board
-        simulate_player_turn(board: board, game: game, io: io)
-        expect(board.at(position: 1)).to eql 'X'
-      end
-    end
-
-    context 'when the board is full' do
-      it 'outputs game over' do
-        board = Board.new(layout: %w[X O X O O X X X O])
-        game = create_game
-        game_is_over = game.game_over?(presenter: FakePresenter.new, board: board)
-        expect(game_is_over).to be_truthy
       end
     end
   end
