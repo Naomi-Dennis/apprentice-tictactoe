@@ -9,6 +9,7 @@ require 'fake_io'
 
 class FakePresenter
   def show_game_over; end
+  def show_winner_is(token:); end
 end
 
 describe TicTacToe do
@@ -78,6 +79,45 @@ describe TicTacToe do
         board = default_board
         simulate_turn_with_input(board: board, game: game, io: io, input: '5')
         expect(board.at(position: 5)).to be 'X'
+      end
+    end
+  end
+
+  describe '#game_over?' do
+    def put_token_in_positions(token:, positions:, board:)
+      place_token = ->(token_position) { board.put(token: token, position: token_position) }
+      positions.each(&place_token)
+    end
+
+    context 'when the board is full' do
+      it 'returns true' do
+          test_board, game = default_board, create_game
+          put_token_in_positions(token: 'X', board: test_board, positions: [1,2,4,6,8])
+          put_token_in_positions(token: 'O', board: test_board, positions: [3,5,7,9])
+          game_over = game.game_over?(presenter: FakePresenter.new, board: test_board)
+          expect(game_over).to be true
+      end
+    end
+
+    context 'when the game is won' do
+      context 'when X wins' do
+      it 'returns true' do
+        test_board, game = default_board, create_game
+        put_token_in_positions(token: 'X', board: test_board, positions: [1,2,3])
+        put_token_in_positions(token: 'O', board: test_board, positions: [4,5,7,9])
+        game_over = game.game_over?(presenter: FakePresenter.new, board: test_board)
+        expect(game_over).to be true
+      end
+    end
+    end
+
+    context "when the board isn't full and no winner is found" do
+      it 'returns false' do
+        test_board, game = default_board, create_game
+        put_token_in_positions(token: 'X', board: test_board, positions: [1,2])
+        put_token_in_positions(token: 'O', board: test_board, positions: [3,5,6])
+        game_over = game.game_over?(presenter: FakePresenter.new, board: test_board)
+        expect(game_over).to be false
       end
     end
   end

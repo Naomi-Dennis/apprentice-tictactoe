@@ -35,8 +35,16 @@ class Presenter
     io.output_to_screen "---------- Player #{player} Turn ----------"
   end
 
+  def show_winner_is(token:)
+    io.output_to_screen "-------- Player #{token} Won ------"
+  end
+
   def show_game_over
     io.output_to_screen '--------- Game Over --------'
+  end
+
+  def show_tie_game
+    io.output_to_screen '--------- Tie Game --------'
   end
 
   private

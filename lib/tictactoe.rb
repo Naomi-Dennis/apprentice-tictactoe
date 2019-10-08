@@ -7,13 +7,15 @@ class TicTacToe
   end
 
   def game_over?(presenter:, board:)
-    game_is_over = board.is_full(tokens: tokens)
-    presenter.show_game_over if game_is_over
-    game_is_over
+    board_is_full, winner = board.is_full(tokens: tokens), find_winner(board: board)
+    winner_found = !winner.nil?
+    presenter.show_game_over if board_is_full || winner_found
+    presenter.show_winner_is(token: winner) unless winner_found
+    presenter.show_tie_game if board_is_full && !winner_found
+    board_is_full || winner_found
   end
 
   def place_token(position:, board:)
-
     board.put(token: current_token, position: position)
     switch_turn
   end
@@ -28,6 +30,15 @@ class TicTacToe
   private
 
   attr_accessor :board, :current_token, :tokens
+
+
+  def find_winner(board:)
+    winning_token = ->(tok) { board.in_winning_position?(token: tok) }
+    winner = tokens.select(&winning_token)
+    more_than_one_winner = winner.length > 1
+    no_winners_found = winner.empty?
+    no_winners_found || more_than_one_winner ? nil : winner.first
+  end
 
   def prompt_user_for_input(presenter:, user_input:)
     presenter.show_player_turn(player: current_token)
