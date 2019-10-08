@@ -6,5 +6,6 @@ class Game
       presenter.show_board(board: board)
       logic.begin_player_turn(board: board, user_input: user_input, presenter: presenter)
     end
+    presenter.show_board(board: board)
   end
 end
