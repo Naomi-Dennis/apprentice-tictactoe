@@ -44,7 +44,7 @@ describe Presenter do
 
     it 'returns the content of each cell in a grid format' do
       presenter = Presenter.new(io: FakeIO.new)
-      board = Board.new(layout: [*1..9].map!(&:to_s))
+      board = Board.new(dimension: 3)
       board_output = FakeIO.new.output_to_screen board_output_data
       expect(presenter.show_board(board: board)).to eql board_output
     end

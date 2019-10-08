@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 class Board
-  def initialize(layout:)
-    @layout = layout
+
+  def initialize(dimension:)
+    number_of_cells = dimension ** 2
+    @dimension = dimension
+    @layout = [*1..number_of_cells].map(&:to_s)
+    @number_of_columns = @number_of_rows = @dimension
   end
 
   def is_full(tokens:)

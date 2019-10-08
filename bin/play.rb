@@ -14,7 +14,7 @@ tictactoe = {
   logic: TicTacToe.new,
   user_input: UserInput.new(io: io),
   presenter: Presenter.new(io: io),
-  board: Board.new(layout: [*1..9].map!(&:to_s))
+  board: Board.new(dimension: 3)
 }
 
 Game.play(tictactoe)

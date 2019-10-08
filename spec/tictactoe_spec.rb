@@ -15,7 +15,7 @@ describe TicTacToe do
   let(:blank_board_output) { "1|2|3\n------\n4|5|6\n------\n7|8|9\n" }
 
   def default_board
-    Board.new(layout: [*1..9].map(&:to_s))
+    Board.new(dimension: 3)
   end
 
   def create_game
