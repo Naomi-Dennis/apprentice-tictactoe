@@ -36,20 +36,66 @@ class Board
     has(position: position) && @layout.none?(&token_in_space)
   end
 
-  def found_winner_at(winning_combination:, token:)
-    winner_found = single_token_at_positions?(positions: winning_combination)
-    winner_is_token = @layout[winning_combination[0]] == token
+  def in_winning_position?(token:)
+    occupied_by_token = ->(space) { space == token }
 
-    winner_found && winner_is_token
+    right_diagonal_positions.all?(&occupied_by_token) ||
+    left_diagonal_positions.all?(&occupied_by_token) ||
+    list_of_rows.any? { |row| row.all?(&occupied_by_token) } ||
+    list_of_columns.any? { |column| column.all?(&occupied_by_token) }
   end
 
   private
 
-  def single_token_at_positions?(positions:)
-    test_positions = [
-      @layout[positions[0]], @layout[positions[1]], @layout[positions[2]]
-    ]
-    is_single_token_at_positions = test_positions.uniq.length == 1
-    is_single_token_at_positions
+  attr_accessor :dimension, :layout, :number_of_columns, :number_of_rows
+
+  def list_of_columns
+    (1..number_of_columns).collect do |column|
+      select_column(column: column)
+    end
+  end
+
+  def list_of_rows
+    (1..number_of_rows).collect do |row|
+      select_row(row: row)
+    end
+  end
+
+  def select_row(row:)
+    row_position = 1 + ((row - 1) * dimension)
+    distance_between_positions = 1
+    tokens_at_nth_positions(n: distance_between_positions, starting_position: row_position)
+  end
+
+  def select_column(column:)
+    column_position = column
+    distance_between_positions = dimension
+    tokens_at_nth_positions(n: distance_between_positions, starting_position: column_position)
+  end
+
+  def right_diagonal_positions
+    top_right_position = dimension
+    distance_between_positions = dimension - 1
+    tokens_at_nth_positions(n: distance_between_positions, starting_position: top_right_position)
+  end
+
+  def left_diagonal_positions
+    top_left_position = 1
+    distance_between_positions = dimension + 1
+    tokens_at_nth_positions(n: distance_between_positions, starting_position: top_left_position)
+  end
+
+  def tokens_at_nth_positions(starting_position:, n:)
+    spaces_at_nth_positions = (starting_position..number_of_cells).step(n).to_a
+
+    number_of_tokens_in_set = dimension - 1
+    nth_positions_within_set = spaces_at_nth_positions[0..number_of_tokens_in_set]
+    tokens_at_positions_within_set = ->(position_within_set) { at(position: position_within_set) }
+
+    nth_positions_within_set.collect(&tokens_at_positions_within_set)
+  end
+
+  def number_of_cells
+    dimension**2
   end
 end

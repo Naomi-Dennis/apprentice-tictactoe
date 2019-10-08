@@ -118,4 +118,96 @@ describe Board do
       expect(board.occupied_at(position: test_position)).to be false
     end
   end
+
+  describe '#in_winning_position?' do
+    let(:token) { 'X' }
+    let(:three_by_three) { 3 }
+
+    context 'when the token occupies all positions along the right diagonal' do
+      it 'returns true' do
+        board = Board.new(dimension: three_by_three)
+        [3,5,7].each { |pos| board.put(token: token, position: pos) }
+        x_wins = board.in_winning_position?(token: token)
+
+        expect(x_wins).to be true
+      end
+    end
+
+    context 'when the token occupies all positions along the left diagonal' do
+      it 'returns true' do
+        board = Board.new(dimension: three_by_three)
+        [1,5,9].each { |pos| board.put(token: token, position: pos) }
+        x_wins = board.in_winning_position?(token: token)
+
+        expect(x_wins).to be true
+      end
+    end
+
+    context 'when a board is 3x3' do
+      context 'when a token occupies all positions in the first row'  do
+        it 'returns true' do
+          board = Board.new(dimension: three_by_three)
+          [1,2,3].each { |pos| board.put(token: token, position: pos) }
+          x_wins = board.in_winning_position?(token: token)
+
+          expect(x_wins).to be true
+        end
+      end
+
+      context 'when a token occupies all positions in the second row' do
+
+        it 'returns true' do
+          board = Board.new(dimension: three_by_three)
+          [4,5,6].each { |pos| board.put(token: token, position: pos) }
+          x_wins = board.in_winning_position?(token: token)
+
+          expect(x_wins).to be true
+        end
+      end
+
+      context 'when a token occupies all positions in the third row' do
+
+        it 'returns true' do
+          board = Board.new(dimension: three_by_three)
+          [7,8,9].each { |pos| board.put(token: token, position: pos) }
+          x_wins = board.in_winning_position?(token: token)
+
+          expect(x_wins).to be true
+        end
+      end
+    end
+
+    context 'when a board is 3x3' do
+      context 'when a token occupies all postions in the first column' do
+        it 'returns true' do
+          board = Board.new(dimension: three_by_three)
+          [1,4,7].each { |pos| board.put(token: token, position: pos) }
+          x_wins = board.in_winning_position?(token: token)
+
+          expect(x_wins).to be true
+        end
+      end
+
+      context 'when a token occupies all postions in the second column' do
+        it 'returns true' do
+          board = Board.new(dimension: three_by_three)
+          [2,5,8].each { |pos| board.put(token: token, position: pos) }
+          x_wins = board.in_winning_position?(token: token)
+
+          expect(x_wins).to be true
+        end
+      end
+
+      context 'when a token occupies all postions in the third column' do
+        it 'returns true' do
+          board = Board.new(dimension: three_by_three)
+          [3,6,9].each { |pos| board.put(token: token, position: pos) }
+          x_wins = board.in_winning_position?(token: token)
+
+          expect(x_wins).to be true
+        end
+      end
+
+    end
+  end
 end
