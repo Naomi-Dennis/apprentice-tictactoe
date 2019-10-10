@@ -4,18 +4,19 @@ require 'spec_helper'
 require 'tictactoe'
 require 'board'
 require 'presenter'
-require 'user_input' 
+require 'user_input'
 require 'fake_io'
 
 class FakePresenter
   def show_game_over; end
+  def show_winner_is(token:); end
 end
 
 describe TicTacToe do
   let(:blank_board_output) { "1|2|3\n------\n4|5|6\n------\n7|8|9\n" }
 
   def default_board
-    Board.new(layout: [*1..9].map(&:to_s))
+    Board.new(dimension: 3)
   end
 
   def create_game
@@ -37,7 +38,7 @@ describe TicTacToe do
       io = FakeIO.new
       game = create_game
       board = default_board
-      game.place_token_at(board: board, position: 1)
+      game.place_token(board: board, position: 1)
       expect(board.at(position: 1)).to eql 'X'
     end
   end
@@ -80,23 +81,43 @@ describe TicTacToe do
         expect(board.at(position: 5)).to be 'X'
       end
     end
+  end
 
-    context "when the player's turn ends" do
-      it 're-render the board' do
-        io = FakeIO.new(input_stream: '1')
-        game = create_game
-        board = default_board
-        simulate_player_turn(board: board, game: game, io: io)
-        expect(board.at(position: 1)).to eql 'X'
-      end
+  describe '#game_over?' do
+    def put_token_in_positions(token:, positions:, board:)
+      place_token = ->(token_position) { board.put(token: token, position: token_position) }
+      positions.each(&place_token)
     end
 
     context 'when the board is full' do
-      it 'outputs game over' do
-        board = Board.new(layout: %w[X O X O O X X X O])
-        game = create_game
-        game_is_over = game.game_over?(presenter: FakePresenter.new, board: board)
-        expect(game_is_over).to be_truthy
+      it 'returns true' do
+          test_board, game = default_board, create_game
+          put_token_in_positions(token: 'X', board: test_board, positions: [1,2,4,6,8])
+          put_token_in_positions(token: 'O', board: test_board, positions: [3,5,7,9])
+          game_over = game.game_over?(presenter: FakePresenter.new, board: test_board)
+          expect(game_over).to be true
+      end
+    end
+
+    context 'when the game is won' do
+      context 'when X wins' do
+      it 'returns true' do
+        test_board, game = default_board, create_game
+        put_token_in_positions(token: 'X', board: test_board, positions: [1,2,3])
+        put_token_in_positions(token: 'O', board: test_board, positions: [4,5,7,9])
+        game_over = game.game_over?(presenter: FakePresenter.new, board: test_board)
+        expect(game_over).to be true
+      end
+    end
+    end
+
+    context "when the board isn't full and no winner is found" do
+      it 'returns false' do
+        test_board, game = default_board, create_game
+        put_token_in_positions(token: 'X', board: test_board, positions: [1,2])
+        put_token_in_positions(token: 'O', board: test_board, positions: [3,5,6])
+        game_over = game.game_over?(presenter: FakePresenter.new, board: test_board)
+        expect(game_over).to be false
       end
     end
   end

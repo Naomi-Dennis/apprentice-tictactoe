@@ -44,7 +44,7 @@ describe Presenter do
 
     it 'returns the content of each cell in a grid format' do
       presenter = Presenter.new(io: FakeIO.new)
-      board = Board.new(layout: [*1..9].map!(&:to_s))
+      board = Board.new(dimension: 3)
       board_output = FakeIO.new.output_to_screen board_output_data
       expect(presenter.show_board(board: board)).to eql board_output
     end
@@ -61,4 +61,41 @@ describe Presenter do
     output = presenter.show_game_over
     expect(output).to include(/game over/i)
   end
+
+  it 'tells the user the game is tied' do
+    presenter = Presenter.new(io: FakeIO.new)
+    output = presenter.show_tie_game
+    expect(output).to include(/tie/i)
+  end
+
+  context 'when the game is won, given player tokens X & O' do
+    context 'when X wins' do
+      it 'tells the user X won the game' do
+        presenter = Presenter.new(io: FakeIO.new)
+        output = presenter.show_winner_is(token: 'X')
+        expect(output).to include(/X.*won/i)
+      end
+
+      it "doesn't tell the user O won" do
+        presenter = Presenter.new(io: FakeIO.new)
+        output = presenter.show_winner_is(token: 'X')
+        expect(output).not_to include(/O.*won/i)
+      end
+    end
+
+    context 'when O wins' do
+      it 'tells the user O won the game' do
+        presenter = Presenter.new(io: FakeIO.new)
+        output = presenter.show_winner_is(token: 'O')
+        expect(output).to include(/O.*won/i)
+      end
+
+      it "doesn't tell the user X won" do
+        presenter = Presenter.new(io: FakeIO.new)
+        output = presenter.show_winner_is(token: 'X')
+        expect(output).not_to include(/O.*won/i)
+      end
+    end
+  end
+
 end
