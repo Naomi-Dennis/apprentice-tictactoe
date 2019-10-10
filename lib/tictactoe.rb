@@ -10,7 +10,7 @@ class TicTacToe
     board_is_full, winner = board.is_full(tokens: tokens), find_winner(board: board)
     winner_found = !winner.nil?
     presenter.show_game_over if board_is_full || winner_found
-    presenter.show_winner_is(token: winner) unless winner_found
+    presenter.show_winner_is(token: winner) if winner_found
     presenter.show_tie_game if board_is_full && !winner_found
     board_is_full || winner_found
   end
