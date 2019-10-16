@@ -11,9 +11,12 @@ class UserInput
     input
   end
 
-  def check(position:, board:, view:)
-    view.tell_position_taken if board.occupied_at(position: position)
-    view.tell_position_invalid unless board.has(position: position)
-    board.has(position: position) && !board.occupied_at(position: position)
+  def check(position:, board:)
+    position_validity = :valid
+    position_validity = Presenter::POSITION_TAKEN if board.occupied_at(position: position)
+    position_validity = Presenter::POSITION_INVALID unless board.has(position: position)
+    final_position = position if position_validity == :valid
+
+    { status: position_validity, space: final_position }
   end
 end
