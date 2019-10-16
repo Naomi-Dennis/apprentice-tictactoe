@@ -98,4 +98,34 @@ describe Presenter do
     end
   end
 
+  context 'when asked to prompt a specific user message' do
+    context 'when POSITION_TAKEN value is given' do
+      it 'prompts the player, their chosen position is taken' do
+        io = FakeIO.new
+        presenter = Presenter.new(io: io)
+        presenter.show_player_error_message(message: Presenter::POSITION_TAKEN)
+        expect(io.output_stream).to include(/position.*taken/i)
+      end
+    end
+
+    context 'when POSITION_INVALID value is given' do
+      it 'prompts the player, their chosen position is invalid' do
+        io = FakeIO.new
+        presenter = Presenter.new(io: io)
+        presenter.show_player_error_message(message: Presenter::POSITION_INVALID)
+        expect(io.output_stream).to include(/invalid.*position/i)
+      end
+    end
+
+    context 'when SELECT_ANOTHER_POSITION value is given' do 
+      it 'promps the player to select another position' do 
+        io = FakeIO.new
+        presenter = Presenter.new(io: io)
+        error_message = Presenter::SELECT_ANOTHER_POSITION
+        presenter.show_player_error_message(message: error_message)
+        expect(io.output_stream).to include(/select another position/i)
+      end 
+    end
+  end
+
 end

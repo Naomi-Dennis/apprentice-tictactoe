@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class Presenter
+
+  POSITION_TAKEN = :position_taken
+  POSITION_INVALID = :invalid_position
+  SELECT_ANOTHER_POSITION = :select_another_position
+
   def initialize(io:)
     @io = io
   end
@@ -45,6 +50,17 @@ class Presenter
 
   def show_tie_game
     io.output_to_screen '--------- Tie Game --------'
+  end
+
+  def show_player_error_message(message:)
+    case message
+    when POSITION_TAKEN
+      tell_position_taken
+    when POSITION_INVALID
+      tell_position_invalid
+    when SELECT_ANOTHER_POSITION
+      prompt_select_another_position
+    end
   end
 
   private
