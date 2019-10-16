@@ -27,7 +27,7 @@ end
 describe UserInput do
   let(:view) { Presenter.new(io: FakeIO.new) }
 
-  context 'when the user enters input' do
+  describe '#input_position' do
     context 'when the input is an integer represented as a string' do
       it 'returns an integer' do
         controller = UserInput.new(io: FakeIO.new(input_stream: '1'))
@@ -44,73 +44,67 @@ describe UserInput do
     end
   end
 
-  context 'when the given position is outside the confines of the board' do
-    it 'returns false' do
-      view = Presenter.new(io: FakeIO.new)
+  describe '#check' do
+    it 'returns a hash' do
       board = FakeBoard.new
-      controller = UserInput.new(io: FakeIO.new(input_stream: '10'))
-      validity = controller.check(position: controller.input_position, board: board, view: view)
-      expect(validity).to be false
+      controller = UserInput.new(io: FakeIO.new(input_stream: '2'))
+      validity = controller.check(position: controller.input_position, board: board)
+      expect(validity).to be_kind_of Hash
     end
 
-    it 'outputs invalid position' do
-      io = FakeIO.new(input_stream: '10')
-      view = Presenter.new(io: io)
+    it 'returned hash status attribute is a symbol' do
       board = FakeBoard.new
-      controller = UserInput.new(io: io)
-      controller.check(position: controller.input_position, board: board, view: view)
-      expect(io.current_output).to include(/invalid position/i)
+      controller = UserInput.new(io: FakeIO.new(input_stream: '2'))
+      validity = controller.check(position: controller.input_position, board: board)
+      expect(validity[:status]).to be_kind_of Symbol
     end
 
-    it 'does not output position taken' do
-      io = FakeIO.new(input_stream: 10)
-      view = Presenter.new(io: io)
-      controller = UserInput.new(io: io)
-      board = FakeBoard.new(occupied_position: controller.input_position)
-      controller.check(position: 10, board: board, view: view)
-      expect(io.current_output).not_to include(/position.*taken/i)
-    end
-  end
-
-  context 'when the given position is within the confines of the board' do
-    context 'when the position is not taken' do
-      it 'returns true' do
+    context 'when given position is a valid position on the board' do
+      it 'returned hash status attribute is :valid' do
         board = FakeBoard.new
         controller = UserInput.new(io: FakeIO.new(input_stream: '2'))
-        validity = controller.check(position: controller.input_position, board: board, view: view)
-        expect(validity).to be_truthy
+        validity = controller.check(position: controller.input_position, board: board)
+        expect(validity[:status]).to be :valid
+      end
+
+      it 'returned hash space attribute is an Integer' do
+        board = FakeBoard.new
+        controller = UserInput.new(io: FakeIO.new(input_stream: '2'))
+        validity = controller.check(position: controller.input_position, board: board)
+        expect(validity[:space]).to be_kind_of Integer
       end
     end
 
-    context 'when the position is taken' do
-      it 'returns false' do
-        io = FakeIO.new(input_stream: '2')
-        view = Presenter.new(io: io)
-        controller = UserInput.new(io: io)
-        board = FakeBoard.new(occupied_position: controller.input_position)
-
-        validity = controller.check(position: controller.input_position, board: board, view: view)
-        expect(validity).to be_falsey
+    context 'when the given position is not on the board (assume 3x3)' do
+      it 'returned hash status attribute is not :valid' do
+        board = FakeBoard.new
+        controller = UserInput.new(io: FakeIO.new(input_stream: '1112'))
+        validity = controller.check(position: controller.input_position, board: board)
+        expect(validity[:status]).not_to be :valid
       end
 
-      it 'outputs position taken' do
-        io = FakeIO.new(input_stream: '2')
-        view = Presenter.new(io: io)
-        controller = UserInput.new(io: io)
-        board = FakeBoard.new(occupied_position: controller.input_position)
-        controller.check(position: controller.input_position, board: board, view: view)
-        expect(io.current_output).to include(/position.*taken/i)
+      it 'returned hash space attribute is nil' do
+        board = FakeBoard.new
+        controller = UserInput.new(io: FakeIO.new(input_stream: '1112'))
+        validity = controller.check(position: controller.input_position, board: board)
+        expect(validity[:space]).to be_kind_of NilClass
+      end
+    end
+
+    context 'when the given position is already occupied' do
+      it 'returned hash status attribute is not :valid' do
+        board = FakeBoard.new(occupied_position: 1)
+        controller = UserInput.new(io: FakeIO.new(input_stream: '1'))
+        validity = controller.check(position: controller.input_position, board: board)
+        expect(validity[:status]).not_to be :valid
       end
 
-      it 'does not output invalid position' do
-        io = FakeIO.new(input_stream: '2')
-        view = Presenter.new(io: io)
-        controller = UserInput.new(io: io)
-        board = FakeBoard.new(occupied_position: controller.input_position)
-        controller.check(position: 2, board: board, view: view)
-        expect(io.current_output).not_to include(/invalid position/i)
+      it 'returned hash space attribute is nil' do
+        board = FakeBoard.new(occupied_position: 1)
+        controller = UserInput.new(io: FakeIO.new(input_stream: '1'))
+        validity = controller.check(position: controller.input_position, board: board)
+        expect(validity[:space]).to be_kind_of NilClass
       end
     end
   end
 end
-
