@@ -1,20 +1,5 @@
-# frozen_string_literal: true
+# frozen_string_literal: truei
 
-require_relative '../lib/tictactoe'
-require_relative '../lib/main_io'
-require_relative '../lib/board'
-require_relative '../lib/presenter'
-require_relative '../lib/game'
-require_relative '../lib/user_input'
+require_relative './tictactoe_setup'
 
-
-io = MainIO.new(input_stream: $stdin, output_stream: $stdout)
-
-tictactoe = {
-  logic: TicTacToe.new,
-  user_input: UserInput.new(io: io),
-  presenter: Presenter.new(io: io),
-  board: Board.new(dimension: 3)
-}
-
-Game.play(tictactoe)
+Game.play(TicTacToeSetup::CARTRIDGE)
