@@ -1,11 +1,23 @@
 # frozen_string_literal: true
 
 class Game
-  def self.play(logic:, user_input:, board:, presenter:)
+  def self.play(logic:, board:, presenter:)
     until logic.game_over?(presenter: presenter, board: board)
       presenter.show_board(board: board)
-      logic.begin_player_turn(board: board, user_input: user_input, presenter: presenter)
+      presenter.show_player_turn(player: logic.current_player_token)
+      presenter.prompt_select_position
+      player_error_messages = logic.begin_player_turn(board: board)
+      display_player_error_messages(presenter: presenter, messages: player_error_messages)
     end
     presenter.show_board(board: board)
   end
+
+  def self.display_player_error_messages(presenter:, messages:)
+    until messages.empty?
+      current_message = messages.shift
+      presenter.show_player_error_message(message: current_message)
+    end
+  end
+
+  private_class_method :display_player_error_messages
 end
