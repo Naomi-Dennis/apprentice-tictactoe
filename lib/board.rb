@@ -9,6 +9,10 @@ class Board
     @number_of_columns = @number_of_rows = @dimension
   end
 
+  def number_of_cells
+    dimension**2
+  end
+
   def is_full(tokens:)
     cells_equal_to_a_token = ->(cell) { tokens.include?(cell) }
     @layout.all?(&cells_equal_to_a_token)
@@ -93,9 +97,5 @@ class Board
     tokens_at_positions_within_set = ->(position_within_set) { at(position: position_within_set) }
 
     nth_positions_within_set.collect(&tokens_at_positions_within_set)
-  end
-
-  def number_of_cells
-    dimension**2
   end
 end

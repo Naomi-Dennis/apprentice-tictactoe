@@ -210,4 +210,17 @@ describe Board do
 
     end
   end
+
+  describe "#number_of_cells" do
+    it 'returns an integer' do
+      board = Board.new(dimension: test_dimension)
+      expect(board.number_of_cells).to be_kind_of Integer
+    end
+
+    it 'returns the squared dimension' do
+      board = Board.new(dimension: test_dimension)
+
+      expect(board.number_of_cells).to be test_dimension**2
+    end
+  end
 end
