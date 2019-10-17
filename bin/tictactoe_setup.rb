@@ -8,6 +8,7 @@ require_relative '../lib/presenter'
 require_relative '../lib/game'
 require_relative '../lib/user_input'
 require_relative '../lib/human_player'
+require_relative '../lib/ai_easy_player'
 
 class TicTacToeSetup
 
@@ -15,7 +16,7 @@ class TicTacToeSetup
   user_input = UserInput.new(io: io)
   presenter = Presenter.new(io: io)
   player_one = HumanPlayer.new(user_input: user_input, token: 'X')
-  player_two = HumanPlayer.new(user_input: user_input, token: 'O')
+  player_two = AiEasyPlayer.new(token: 'O')
 
   CARTRIDGE = {
     logic: TicTacToe.new(players: [player_one, player_two]),
