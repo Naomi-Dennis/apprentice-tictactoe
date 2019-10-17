@@ -6,6 +6,7 @@ require 'board'
 require 'presenter'
 require 'user_input'
 require 'fake_io'
+require 'human_player'
 
 class FakePresenter
   def show_game_over; end
@@ -19,8 +20,15 @@ describe TicTacToe do
     Board.new(dimension: 3)
   end
 
-  def create_game
-    TicTacToe.new
+  def human_player(token:, position: 0)
+    io = FakeIO.new(input_stream: position.to_s)
+    HumanPlayer.new(user_input: UserInput.new(io: io),
+                              token: token)
+  end
+
+  def create_game(players: [human_player(token: 'X'), human_player(token: 'O')])
+    players = players
+    TicTacToe.new(players: players)
   end
 
   def board_output_with(token:, position:)
@@ -30,7 +38,7 @@ describe TicTacToe do
   def simulate_player_turn(board: default_board, game:, io:)
     user_input = UserInput.new(io: io)
     presenter = Presenter.new(io: io)
-    game.begin_player_turn(board: board, user_input: user_input, presenter: presenter)
+    game.begin_player_turn(board: board)
   end
 
   context 'when a new game is started' do
@@ -53,11 +61,20 @@ describe TicTacToe do
 
     context 'when the user tries to place a token in a free space' do
       it 'adds their token to the board' do
-        io = FakeIO.new(input_stream: test_position)
-        game = create_game
+        player_x = human_player(token: 'X', position: test_position)
+        game = create_game(players: [player_x])
         board = default_board
-        simulate_player_turn(board: board, game: game, io: io)
+        simulate_player_turn(board: board, game: game, io: FakeIO.new)
         expect(board.at(position: test_position.to_i)).to eql 'X'
+      end
+
+
+      it 'returns an empty error messages list' do
+        player_x = human_player(token: 'X', position: test_position)
+        game = create_game(players: [player_x])
+        board = default_board
+        error_messages = simulate_player_turn(board: board, game: game, io: FakeIO.new)
+        expect(error_messages).to be_empty
       end
     end
 
@@ -74,11 +91,27 @@ describe TicTacToe do
       end
 
       it "not end the player's turn until a valid input is entered" do
-        io = FakeIO.new(input_stream: bad_input)
-        game = create_game
+        game = create_game(players: [human_player(token: 'X', position: 5),
+                                     human_player(token: 'O', position: 4)])
         board = default_board
-        simulate_turn_with_input(board: board, game: game, io: io, input: '5')
+        simulate_player_turn(board: board, game: game, io: FakeIO.new)
         expect(board.at(position: 5)).to be 'X'
+      end
+
+      it 'returns a list of error messages including invalid position symbol' do
+        game = create_game(players: [human_player(token: 'X', position: 11),
+                                     human_player(token: 'O', position: 4)])
+        board = default_board
+        errors = simulate_player_turn(board: board, game: game, io: FakeIO.new)
+        expect(errors).to include Presenter::POSITION_INVALID
+      end
+
+      it 'returns a list of error messages including select another position symbol' do
+        game = create_game(players: [human_player(token: 'X', position: 11),
+                                     human_player(token: 'O', position: 4)])
+        board = default_board
+        errors = simulate_player_turn(board: board, game: game, io: FakeIO.new)
+        expect(errors).to include Presenter::SELECT_ANOTHER_POSITION
       end
     end
   end
@@ -120,5 +153,10 @@ describe TicTacToe do
         expect(game_over).to be false
       end
     end
+  end
+
+  it 'returns the token of the current player' do
+    current_player_token = create_game.current_player_token
+    expect(current_player_token).to eql 'X'
   end
 end

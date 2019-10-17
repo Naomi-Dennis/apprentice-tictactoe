@@ -1,8 +1,9 @@
-# frozen_string_literal: true
+ # frozen_string_literal: true
 
 require 'spec_helper'
 require 'game'
 require 'fake_io'
+
 class FakeTicTacToe
   attr_accessor :game_over_received_true
 
@@ -18,13 +19,19 @@ class FakeTicTacToe
     @game_over_received_true
   end
 
-  def begin_player_turn(board:, user_input:, presenter:); end
+  def begin_player_turn(board:); [] end
 
   def setup; end
+
+  def current_player_token; end
 end
 
 class FakePresenter
   def show_board(board:); end
+
+  def show_player_turn(player:); end
+
+  def prompt_select_position; end
 end
 
 class FakeBoard; end
@@ -33,12 +40,13 @@ describe Game do
   it 'loops through game logic until the game is over' do
     game = FakeTicTacToe.new
     game_data = {
-      user_input: FakeIO.new,
       board: FakeBoard.new,
       presenter: FakePresenter.new,
       logic: game
     }
+
     Game.play(game_data)
+
     game_ended = game.game_over_received_true
     expect(game_ended).to be true
   end
