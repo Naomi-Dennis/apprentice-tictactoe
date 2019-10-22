@@ -4,9 +4,23 @@ require 'spec_helper'
 require 'presenter'
 require 'board'
 require 'fake_io'
-require 'menu'
 
 class FakeUserInput; end
+
+class FakeMenu
+  attr_accessor :options 
+  def initialize(user_input:)
+    @options = []   
+  end
+  
+  def option_at(position:)
+    @options[position - 1]
+  end 
+
+  def add_option(option:)
+    options << option
+  end 
+end 
 
 describe Presenter do
   it 'prompts the player to select a position' do
@@ -133,7 +147,7 @@ describe Presenter do
   context 'when the game mode menu is shown' do
     it 'outputs menu options in a numbered list' do
       io = FakeIO.new
-      menu = Menu.new(user_input: FakeUserInput.new)
+      menu = FakeMenu.new(user_input: FakeUserInput.new(io: io))
       menu.add_option(option: 'selection')
       menu.add_option(option: 'another')
       Presenter.new(io: io).show_numbered_menu(menu: menu)

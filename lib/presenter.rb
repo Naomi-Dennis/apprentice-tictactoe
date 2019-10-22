@@ -63,6 +63,14 @@ class Presenter
     end
   end
 
+  def show_numbered_menu(menu:)
+    selection = 1
+    until (current_option = menu.option_at(position: selection)).nil?
+      io.output_to_screen "#{selection}. #{current_option}"
+      selection += 1
+    end
+  end
+
   private
 
   attr_accessor :io
