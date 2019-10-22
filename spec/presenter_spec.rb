@@ -4,7 +4,9 @@ require 'spec_helper'
 require 'presenter'
 require 'board'
 require 'fake_io'
+require 'menu'
 
+class FakeUserInput; end
 
 describe Presenter do
   it 'prompts the player to select a position' do
@@ -117,15 +119,25 @@ describe Presenter do
       end
     end
 
-    context 'when SELECT_ANOTHER_POSITION value is given' do 
-      it 'promps the player to select another position' do 
+    context 'when SELECT_ANOTHER_POSITION value is given' do
+      it 'prompts the player to select another position' do
         io = FakeIO.new
         presenter = Presenter.new(io: io)
         error_message = Presenter::SELECT_ANOTHER_POSITION
         presenter.show_player_error_message(message: error_message)
         expect(io.output_stream).to include(/select another position/i)
-      end 
+      end
     end
   end
 
+  context 'when the game mode menu is shown' do
+    it 'outputs menu options in a numbered list' do
+      io = FakeIO.new
+      menu = Menu.new(user_input: FakeUserInput.new)
+      menu.add_option(option: 'selection')
+      menu.add_option(option: 'another')
+      Presenter.new(io: io).show_numbered_menu(menu: menu)
+      expect(io.output_stream).to include(/1.*selection/i, /2.*another/i)
+    end
+  end
 end
